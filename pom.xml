@@ -250,7 +250,7 @@
                     <artifactId>dependency-check-maven</artifactId>
                     <version>${dependency.check.maven.plugin.version}</version>
                     <configuration>
-                        <!--<failBuildOnCVSS>3</failBuildOnCVSS>-->
+                        <failBuildOnCVSS>4</failBuildOnCVSS>
                         <!-- The following properties enable using a mirror for nist NVD data -->
                         <cveUrl12Modified>${owasp.cveUrl12Modified}</cveUrl12Modified>
                         <cveUrl20Modified>${owasp.cveUrl20Modified}</cveUrl20Modified>
