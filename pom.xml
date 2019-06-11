@@ -249,6 +249,54 @@
                     <groupId>org.owasp</groupId>
                     <artifactId>dependency-check-maven</artifactId>
                     <version>${dependency.check.maven.plugin.version}</version>
+                    <configuration>
+                        <!--<failBuildOnCVSS>3</failBuildOnCVSS>-->
+                        <!-- The following properties enable using a mirror for nist NVD data -->
+                        <cveUrl12Modified>${owasp.cveUrl12Modified}</cveUrl12Modified>
+                        <cveUrl20Modified>${owasp.cveUrl20Modified}</cveUrl20Modified>
+                        <cveUrl12Base>${owasp.cveUrl12Base}</cveUrl12Base>
+                        <cveUrl20Base>${owasp.cveUrl20Base}</cveUrl20Base>
+                        <!-- End NVD mirror configuration -->
+
+                        <!-- The following properties enable using a centralized nvd server -->
+                        <autoUpdate>${owasp.autoUpdate}</autoUpdate>
+                        <databaseDriverName>${owasp.database.driverName}</databaseDriverName>
+                        <connectionString>${owasp.database.url}</connectionString>
+                        <serverId>${owasp.serverId}</serverId>
+                        <!-- End Centralized NVD Server Configuration -->
+
+                        <!--Disable by plugin maintainer recommendation on https://github.com/jeremylong/DependencyCheck/issues/978#issuecomment-349620687-->
+                        <centralAnalyzerEnabled>false</centralAnalyzerEnabled>
+                        <!--Disable because we have a separate NSP analysis step and this plugin has no way to suppress NSP issues as of 3.0.2-->
+                        <nspAnalyzerEnabled>false</nspAnalyzerEnabled>
+                        <!--Disable .NET analyzers-->
+                        <nuspecAnalyzerEnabled>false</nuspecAnalyzerEnabled>
+                        <assemblyAnalyzerEnabled>false</assemblyAnalyzerEnabled>
+                        <!--Analyzes Ruby Gemfile.lock files, not OSGi bundles-->
+                        <bundleAuditAnalyzerEnabled>false</bundleAuditAnalyzerEnabled>
+                        <!--We don't use CMake, CocoaPods, AutoConf, or Ruby-->
+                        <cmakeAnalyzerEnabled>false</cmakeAnalyzerEnabled>
+                        <cocoapodsAnalyzerEnabled>false</cocoapodsAnalyzerEnabled>
+                        <autoconfAnalyzerEnabled>false</autoconfAnalyzerEnabled>
+                        <rubygemsAnalyzerEnabled>false</rubygemsAnalyzerEnabled>
+                        <nodeAnalyzerEnabled>false</nodeAnalyzerEnabled>
+
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.mariadb.jdbc</groupId>
+                            <artifactId>mariadb-java-client</artifactId>
+                            <version>2.4.1</version>
+                        </dependency>
+                    </dependencies>
+                    <executions>
+                        <execution>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <groupId>org.jacoco</groupId>
