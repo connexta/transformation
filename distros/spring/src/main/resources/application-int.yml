@@ -1,0 +1,13 @@
+spring:
+  rabbitmq:
+    user: ion
+    password: ion
+    host: rabbitmq
+    port: 5672
+    virtualHost: /
+    exchange: transformation
+    routingKey: request
+logging:
+  level:
+    org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
+    com.connexta.transformation.service: DEBUG

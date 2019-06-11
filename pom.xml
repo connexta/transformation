@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Copyright (c) Connexta
+ *
+ * This is free software: you can redistribute it and/or modify it under the terms of the GNU Lesser General Public License as published by the Free Software Foundation, either
+ * version 3 of the License, or any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU Lesser General Public License for more details. A copy of the GNU Lesser General Public License is distributed along with this program and can be found at
+ * <http://www.gnu.org/licenses/lgpl.html>.
+ *
+ **/
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+   <name>Transformation :: Service</name>
+    <inceptionYear>2019</inceptionYear>
+    <organization>
+        <name>Connexta</name>
+        <url>https://connexta.com/</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>GNU Lesser General Public v3</name>
+            <url>http://www.gnu.org/licenses/lgpl.html</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <groupId>com.connexta.transformation</groupId>
+    <artifactId>transformation-service</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <scm>
+        <url>http://github.com/connexta/transformation.git</url>
+        <connection>scm:git:http://github.com/connexta/transformation.git</connection>
+        <developerConnection>scm:git:http://github.com/connexta/transformation.git
+        </developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <properties>
+        <codice.scm.connection.url/>
+        <snapshots.repository.url />
+        <releases.repository.url />
+        <reports.repository.url/>
+
+        <!-- Build properties -->
+        <java.version>11</java.version>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- Dependency properties -->
+        <guava.version>20.0</guava.version>
+        <immutables.version>2.7.1</immutables.version>
+        <micrometer.version>1.0.6</micrometer.version>
+        <transformation-api.version>0.0.1-SNAPSHOT</transformation-api.version>
+        <spring-amqp.version>2.1.5.RELEASE</spring-amqp.version>
+        <slf4j.version>1.7.25</slf4j.version>
+        <junit.jupiter.version>5.5.0-M1</junit.jupiter.version>
+        <junit.platform.version>1.5.0-M1</junit.platform.version>
+
+        <!-- Plugin dependency properties -->
+        <compiler-plugin.version>3.8.0</compiler-plugin.version>
+        <dependency-plugin.version>3.0.2</dependency-plugin.version>
+        <directory.maven.plugin.version>0.3.1</directory.maven.plugin.version>
+        <fabric8.docker.plugin.version>0.30.0</fabric8.docker.plugin.version>
+        <gitflow-plugin.version>3.4</gitflow-plugin.version>
+        <javadoc-plugin.version>3.1.0</javadoc-plugin.version>
+        <source-plugin.version>3.0.1</source-plugin.version>
+        <jacoco.maven.plugin.version>0.8.4</jacoco.maven.plugin.version>
+        <dependency.check.maven.plugin.version>5.0.0-M3</dependency.check.maven.plugin.version>
+        <sonar.maven.plugin.version>3.6.0.1398</sonar.maven.plugin.version>
+        <spotless.maven.plugin.version>1.23.0</spotless.maven.plugin.version>
+
+        <!-- Gitflow Incremental Builder Properties -->
+        <gib.referenceBranch>refs/remotes/origin/master</gib.referenceBranch>
+        <gib.baseBranch>HEAD</gib.baseBranch>
+        <gib.enabled>false</gib.enabled>
+        <gib.failOnError>false</gib.failOnError>
+    </properties>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <url>${snapshots.repository.url}</url>
+        </snapshotRepository>
+        <repository>
+            <id>releases</id>
+            <url>${releases.repository.url}</url>
+        </repository>
+        <site>
+            <id>reports</id>
+            <url>${reports.repository.url}</url>
+        </site>
+    </distributionManagement>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.connexta.transformation</groupId>
+                <artifactId>transformation-api-java</artifactId>
+                <version>${transformation-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.connexta.transformation</groupId>
+                <artifactId>transformation-api-rest-spring</artifactId>
+                <version>${transformation-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.connexta.transformation</groupId>
+                <artifactId>transformation-api-rest-spring-boot</artifactId>
+                <version>${transformation-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.connexta.transformation</groupId>
+                <artifactId>transformation-api-rest-models</artifactId>
+                <version>${transformation-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.connexta.transformation</groupId>
+                <artifactId>transformation-api-rest-stub</artifactId>
+                <version>${transformation-api.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-core</artifactId>
+                <version>${micrometer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-jmx</artifactId>
+                <version>${micrometer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.immutables</groupId>
+                <artifactId>value</artifactId>
+                <version>${immutables.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.amqp</groupId>
+                <artifactId>spring-rabbit</artifactId>
+                <version>${spring-amqp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.amqp</groupId>
+                <artifactId>spring-amqp</artifactId>
+                <version>${spring-amqp.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-engine</artifactId>
+                <version>${junit.jupiter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-runner</artifactId>
+                <version>${junit.platform.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>com.vackosar.gitflowincrementalbuilder</groupId>
+                <artifactId>gitflow-incremental-builder</artifactId>
+                <version>${gitflow-plugin.version}</version>
+            </extension>
+        </extensions>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${compiler-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>${dependency-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${source-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${javadoc-plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-javadocs</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>io.fabric8</groupId>
+                    <artifactId>docker-maven-plugin</artifactId>
+                    <version>${fabric8.docker.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>build-image</id>
+                            <phase>install</phase>
+                            <goals>
+                                <goal>build</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>push-image</id>
+                            <phase>deploy</phase>
+                            <goals>
+                                <goal>push</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.owasp</groupId>
+                    <artifactId>dependency-check-maven</artifactId>
+                    <version>${dependency.check.maven.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>${jacoco.maven.plugin.version}</version>
+                    <executions>
+                        <execution>
+                            <id>default-prepare-agent</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>default-report</id>
+                            <phase>prepare-package</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                        </execution>
+                        <execution>
+                            <id>default-check</id>
+                            <goals>
+                                <goal>check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.sonarsource.scanner.maven</groupId>
+                    <artifactId>sonar-maven-plugin</artifactId>
+                    <version>${sonar.maven.plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <!--Set the root POM directory-->
+            <plugin>
+                <groupId>org.commonjava.maven.plugins</groupId>
+                <artifactId>directory-maven-plugin</artifactId>
+                <version>${directory.maven.plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>directories</id>
+                        <goals>
+                            <goal>highest-basedir</goal>
+                        </goals>
+                        <phase>initialize</phase>
+                        <configuration>
+                            <property>highest-basedir</property>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.diffplug.spotless</groupId>
+                <artifactId>spotless-maven-plugin</artifactId>
+                <version>${spotless.maven.plugin.version}</version>
+                <configuration>
+                    <java>
+                        <licenseHeader>
+                            <file>${highest-basedir}/headerJava.txt</file>
+                        </licenseHeader>
+                        <googleJavaFormat>
+                            <version>1.7</version>
+                        </googleJavaFormat>
+                        <trimTrailingWhitespace/>
+                        <removeUnusedImports/>
+                    </java>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>owasp</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+            <reporting>
+                <plugins>
+                    <plugin>
+                        <groupId>org.owasp</groupId>
+                        <artifactId>dependency-check-maven</artifactId>
+                    </plugin>
+                </plugins>
+            </reporting>
+        </profile>
+    </profiles>
+
+    <modules>
+        <module>impl</module>
+        <module>distros</module>
+    </modules>
+
+</project>
