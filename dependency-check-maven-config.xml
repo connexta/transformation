@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.2.xsd">
+    <!-- jackson-databind-nullable wraps jackson-databind and seems to inherit
+         its vulnerabilities even when the underlying jackson-databind dependency is forced to the correct version -->
+    <suppress>
+        <notes>
+            jackson-databind-nullable shows a positive identifier for vulnerabililties associated
+            with jackson-databind before 2.9.9. jackson-databind is forced to 2.9.9 within the project but
+            jackson-databind-nullable still shows up with the associated vulnerabilities
+            <![CDATA[
+   file name: jackson-databind-nullable-0.1.0.jar
+   ]]></notes>
+        <gav regex="true">^org\.openapitools:jackson-databind-nullable:.*$</gav>
+        <cve>CVE-2016-3720</cve>
+    </suppress>
+    <suppress>
+        <notes>
+            jackson-databind-nullable shows a positive identifier for vulnerabililties associated
+            with jackson-databind before 2.9.9. jackson-databind is forced to 2.9.9 within the project but
+            jackson-databind-nullable still shows up with the associated vulnerabilities
+            <![CDATA[
+   file name: jackson-databind-nullable-0.1.0.jar
+   ]]></notes>
+        <gav regex="true">^org\.openapitools:jackson-databind-nullable:.*$</gav>
+        <cve>CVE-2016-7051</cve>
+    </suppress>
+    <suppress>
+        <notes>
+            jackson-databind-nullable shows a positive identifier for vulnerabililties associated
+            with jackson-databind before 2.9.9. jackson-databind is forced to 2.9.9 within the project but
+            jackson-databind-nullable still shows up with the associated vulnerabilities
+            <![CDATA[
+   file name: jackson-databind-nullable-0.1.0.jar
+   ]]></notes>
+        <gav regex="true">^org\.openapitools:jackson-databind-nullable:.*$</gav>
+        <cve>CVE-2017-15095</cve>
+    </suppress>
+    <suppress>
+        <notes>
+            jackson-databind-nullable shows a positive identifier for vulnerabililties associated
+            with jackson-databind before 2.9.9. jackson-databind is forced to 2.9.9 within the project but
+            jackson-databind-nullable still shows up with the associated vulnerabilities
+            <![CDATA[
+   file name: jackson-databind-nullable-0.1.0.jar
+   ]]></notes>
+        <gav regex="true">^org\.openapitools:jackson-databind-nullable:.*$</gav>
+        <cve>CVE-2017-17485</cve>
+    </suppress>
+    <suppress>
+        <notes>
+            jackson-databind-nullable shows a positive identifier for vulnerabililties associated
+            with jackson-databind before 2.9.9. jackson-databind is forced to 2.9.9 within the project but
+            jackson-databind-nullable still shows up with the associated vulnerabilities
+            <![CDATA[
+   file name: jackson-databind-nullable-0.1.0.jar
+   ]]></notes>
+        <gav regex="true">^org\.openapitools:jackson-databind-nullable:.*$</gav>
+        <cve>CVE-2017-7525</cve>
+    </suppress>
+    <suppress>
+        <notes>
+            jackson-databind-nullable shows a positive identifier for vulnerabililties associated
+            with jackson-databind before 2.9.9. jackson-databind is forced to 2.9.9 within the project but
+            jackson-databind-nullable still shows up with the associated vulnerabilities
+            <![CDATA[
+   file name: jackson-databind-nullable-0.1.0.jar
+   ]]></notes>
+        <gav regex="true">^org\.openapitools:jackson-databind-nullable:.*$</gav>
+        <cve>CVE-2018-1000873</cve>
+    </suppress>
+    <suppress>
+        <notes>
+            jackson-databind-nullable shows a positive identifier for vulnerabililties associated
+            with jackson-databind before 2.9.9. jackson-databind is forced to 2.9.9 within the project but
+            jackson-databind-nullable still shows up with the associated vulnerabilities
+            <![CDATA[
+   file name: jackson-databind-nullable-0.1.0.jar
+   ]]></notes>
+        <gav regex="true">^org\.openapitools:jackson-databind-nullable:.*$</gav>
+        <cve>CVE-2018-14718</cve>
+    </suppress>
+    <suppress>
+        <notes>
+            jackson-databind-nullable shows a positive identifier for vulnerabililties associated
+            with jackson-databind before 2.9.9. jackson-databind is forced to 2.9.9 within the project but
+            jackson-databind-nullable still shows up with the associated vulnerabilities
+            <![CDATA[
+   file name: jackson-databind-nullable-0.1.0.jar
+   ]]></notes>
+        <gav regex="true">^org\.openapitools:jackson-databind-nullable:.*$</gav>
+        <cve>CVE-2018-5968</cve>
+    </suppress>
+    <suppress>
+        <notes>
+            jackson-databind-nullable shows a positive identifier for vulnerabililties associated
+            with jackson-databind before 2.9.9. jackson-databind is forced to 2.9.9 within the project but
+            jackson-databind-nullable still shows up with the associated vulnerabilities
+            <![CDATA[
+   file name: jackson-databind-nullable-0.1.0.jar
+   ]]></notes>
+        <gav regex="true">^org\.openapitools:jackson-databind-nullable:.*$</gav>
+        <cve>CVE-2018-7489</cve>
+    </suppress>
+    <!-- End jackson-databind-nullable vulnerabilities -->
+</suppressions>
