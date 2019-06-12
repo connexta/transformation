@@ -207,7 +207,12 @@ pipeline {
 
                 withMaven(maven: 'Maven 3.5.4', jdk: 'jdk11', globalMavenSettingsConfig: 'default-global-settings', mavenSettingsConfig: 'cx-oss-settings', mavenOpts: '${LINUX_MVN_RANDOM}') {
                     sh 'mvn javadoc:aggregate -B -DskipTests -nsu $DISABLE_DOWNLOAD_PROGRESS_OPTS'
-                    sh 'mvn deploy -B -DskipTests -DretryFailedDeploymentCount=10 -nsu $DISABLE_DOWNLOAD_PROGRESS_OPTS -Dgpg.secretKeyring=$ION_GPG_KEYRING -Dgpg.publicKeyring=$ION_GPG_KEYRING'
+                    script {
+                        if(params.RELEASE == true) {
+                            sh 'mvn deploy -B -DskipTests -DretryFailedDeploymentCount=10 -nsu $DISABLE_DOWNLOAD_PROGRESS_OPTS -Dgpg.secretKeyring=$ION_GPG_KEYRING -Dgpg.publicKeyring=$ION_GPG_KEYRING' -Prelease
+                        } else {
+                            sh 'mvn deploy -B -DskipTests -DretryFailedDeploymentCount=10 -nsu $DISABLE_DOWNLOAD_PROGRESS_OPTS
+                        }
                 }
             }
         }
