@@ -122,8 +122,10 @@ pipeline {
                                 }
                                 if (env.CHANGE_ID == null) {
                                     sh 'mvn install -B -Powasp -DskipTests -nsu $DISABLE_DOWNLOAD_PROGRESS_OPTS'
+                                    archiveArtifacts allowEmptyArchive: true, artifacts: '**/dependency-check-report.*', onlyIfSuccessful: true
                                 } else {
                                     sh 'mvn install -B -Powasp -DskipTests -Dgib.enabled=true -Dgib.referenceBranch=/refs/remotes/origin/$CHANGE_TARGET -nsu $DISABLE_DOWNLOAD_PROGRESS_OPTS'
+                                    archiveArtifacts allowEmptyArchive: true, artifacts: '**/dependency-check-report.*', onlyIfSuccessful: true
                                 }
                             }
                         }
