@@ -21,7 +21,7 @@ pipeline {
         COVERAGE_EXCLUSIONS = '**/test/**/*,**/itests/**/*,**/*Test*,**/sdk/**/*,**/*.js,**/node_modules/**/*,**/jaxb/**/*,**/wsdl/**/*,**/nces/sws/**/*,**/*.adoc,**/*.txt,**/*.xml'
         GITHUB_USERNAME = 'connexta'
         GITHUB_REPONAME = 'ion-transformation'
-	GITHUB_KEY = 'ion-transformation-github-key'
+	      GITHUB_KEY = 'ion-transformation-github-key'
     }
     parameters {
             booleanParam(name: 'RELEASE', defaultValue: false, description: 'Perform Release?')
@@ -187,7 +187,7 @@ pipeline {
                     environment name: 'JENKINS_ENV', value: 'prod'
                 }
             }
-            steps{
+            steps {
                 script {
                     if(params.RELEASE == true) {
                         sh "git checkout ${env.RELEASE_TAG}"
@@ -202,6 +202,7 @@ pipeline {
                         } else {
                             sh 'mvn deploy -B -DskipTests -DretryFailedDeploymentCount=10 -nsu $DISABLE_DOWNLOAD_PROGRESS_OPTS'
                         }
+                    }
                 }
             }
         }
