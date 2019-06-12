@@ -251,7 +251,7 @@
                     <version>${dependency.check.maven.plugin.version}</version>
                     <configuration>
                         <suppressionFile>${highest-basedir}/dependency-check-maven-config.xml</suppressionFile>
-                        <failBuildOnCVSS>4</failBuildOnCVSS>
+                        <!-- Disabling for now <failBuildOnCVSS>4</failBuildOnCVSS> -->
                         <!-- The following properties enable using a mirror for nist NVD data -->
                         <cveUrl12Modified>${owasp.cveUrl12Modified}</cveUrl12Modified>
                         <cveUrl20Modified>${owasp.cveUrl20Modified}</cveUrl20Modified>
