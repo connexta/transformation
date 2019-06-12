@@ -185,6 +185,9 @@ pipeline {
          It will also only deploy in the presence of an environment variable JENKINS_ENV = 'prod'. This can be passed in globally from the jenkins master node settings.
         */
         stage('Deploy') {
+            environment {
+                ION_GPG_KEYRING = credentials('ion-releases-key')
+            }
             when {
                 allOf {
                     expression { env.CHANGE_ID == null }
@@ -204,7 +207,7 @@ pipeline {
 
                 withMaven(maven: 'Maven 3.5.4', jdk: 'jdk11', globalMavenSettingsConfig: 'default-global-settings', mavenSettingsConfig: 'cx-oss-settings', mavenOpts: '${LINUX_MVN_RANDOM}') {
                     sh 'mvn javadoc:aggregate -B -DskipTests -nsu $DISABLE_DOWNLOAD_PROGRESS_OPTS'
-                    sh 'mvn deploy -B -DskipTests -DretryFailedDeploymentCount=10 -nsu $DISABLE_DOWNLOAD_PROGRESS_OPTS'
+                    sh 'mvn deploy -B -DskipTests -DretryFailedDeploymentCount=10 -nsu $DISABLE_DOWNLOAD_PROGRESS_OPTS -Dgpg.secretKeyring=$ION_GPG_KEYRING -Dgpg.publicKeyring=$ION_GPG_KEYRING'
                 }
             }
         }
