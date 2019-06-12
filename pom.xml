@@ -74,6 +74,7 @@
         <dependency.check.maven.plugin.version>5.0.0-M3</dependency.check.maven.plugin.version>
         <sonar.maven.plugin.version>3.6.0.1398</sonar.maven.plugin.version>
         <spotless.maven.plugin.version>1.23.0</spotless.maven.plugin.version>
+        <release-plugin.version>2.5.3</release-plugin.version>
 
         <!-- Gitflow Incremental Builder Properties -->
         <gib.referenceBranch>refs/remotes/origin/master</gib.referenceBranch>
@@ -182,6 +183,13 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>${release-plugin.version}</version>
+                    <configuration>
+                        <pushChanges>false</pushChanges>
+                    </configuration>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${compiler-plugin.version}</version>
@@ -219,9 +227,10 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.5</version>
+                    <version>1.6</version>
                     <configuration>
                         <passphraseServerId>ion-signing</passphraseServerId>
+                        <useAgent>false</useAgent>
                     </configuration>
                     <executions>
                         <execution>
@@ -396,9 +405,6 @@
     <profiles>
         <profile>
             <id>release</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
             <build>
                 <plugins>
                     <plugin>
