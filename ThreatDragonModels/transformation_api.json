@@ -31,7 +31,7 @@
                   "class": "element-shape hasNoOpenThreats isInScope"
                 },
                 "text": {
-                  "text": "User"
+                  "text": "(1) User"
                 },
                 ".element-text": {
                   "class": "element-text hasNoOpenThreats isInScope"
@@ -51,16 +51,27 @@
               "angle": 0,
               "id": "835dc1c6-04ed-4695-a12c-679f1d1b49dc",
               "z": 2,
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "DOS From Requests",
+                  "type": "Denial of service",
+                  "mitigation": "Implement a load balancer.",
+                  "description": "Numerous empty requests from users could overburden the API and prevent it from processing valid requests.",
+                  "$$hashKey": "object:224"
+                }
+              ],
               "attrs": {
                 ".element-shape": {
-                  "class": "element-shape hasNoOpenThreats isInScope"
+                  "class": "element-shape hasOpenThreats isInScope"
                 },
                 "text": {
-                  "text": "External API"
+                  "text": "(2) External API"
                 },
                 ".element-text": {
-                  "class": "element-text hasNoOpenThreats isInScope"
+                  "class": "element-text hasOpenThreats isInScope"
                 }
               }
             },
@@ -83,7 +94,7 @@
                   "class": "element-shape hasNoOpenThreats isInScope"
                 },
                 "text": {
-                  "text": "Service\nRegistry"
+                  "text": "(4) Service\nRegistry"
                 },
                 ".element-text": {
                   "class": "element-text hasNoOpenThreats isInScope"
@@ -103,17 +114,28 @@
               "angle": 0,
               "id": "0d8bccfa-7aa3-47d0-88d4-f31a486ed3b1",
               "z": 4,
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
               "isALog": true,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "title": "Unauthorized Changes to Database",
+                  "description": "Database should only take commands from recognized profiles, namely the Service Registry Service.",
+                  "mitigation": "Implement proper permission checks.",
+                  "$$hashKey": "object:235"
+                }
+              ],
               "attrs": {
                 ".element-shape": {
-                  "class": "element-shape hasNoOpenThreats isInScope"
+                  "class": "element-shape hasOpenThreats isInScope"
                 },
                 "text": {
-                  "text": "Database"
+                  "text": "(5) Database"
                 },
                 ".element-text": {
-                  "class": "element-text hasNoOpenThreats isInScope"
+                  "class": "element-text hasOpenThreats isInScope"
                 }
               }
             },
@@ -229,16 +251,21 @@
                 "id": "835dc1c6-04ed-4695-a12c-679f1d1b49dc"
               },
               "target": {
-                "id": "f23bee0c-9228-4dcf-baeb-2c06ac520370"
+                "id": "4b62febf-9bc2-4154-b052-97415311f1d6"
               },
-              "vertices": [],
+              "vertices": [
+                {
+                  "x": 402,
+                  "y": 126
+                }
+              ],
               "id": "cf6ba3ac-305e-4031-8cee-d28c1f95ccb9",
               "labels": [
                 {
                   "position": 0.5,
                   "attrs": {
                     "text": {
-                      "text": "Request",
+                      "text": "Put Request",
                       "font-weight": "400",
                       "font-size": "small"
                     }
@@ -246,48 +273,6 @@
                 }
               ],
               "z": 8,
-              "hasOpenThreats": false,
-              "attrs": {
-                ".marker-target": {
-                  "class": "marker-target hasNoOpenThreats isInScope"
-                },
-                ".connection": {
-                  "class": "connection hasNoOpenThreats isInScope"
-                }
-              }
-            },
-            {
-              "type": "tm.Flow",
-              "smooth": true,
-              "source": {
-                "id": "f23bee0c-9228-4dcf-baeb-2c06ac520370"
-              },
-              "target": {
-                "id": "0d8bccfa-7aa3-47d0-88d4-f31a486ed3b1"
-              },
-              "vertices": [
-                {
-                  "x": 832,
-                  "y": 215
-                }
-              ],
-              "id": "4f61f906-c9d6-4b91-9708-538a01ec359d",
-              "labels": [
-                {
-                  "position": {
-                    "distance": 0.493801300282141,
-                    "offset": -0.1620533475652337
-                  },
-                  "attrs": {
-                    "text": {
-                      "text": "Status Update",
-                      "font-weight": "400",
-                      "font-size": "small"
-                    }
-                  }
-                }
-              ],
-              "z": 9,
               "hasOpenThreats": false,
               "attrs": {
                 ".marker-target": {
@@ -326,22 +311,33 @@
                 "height": 80
               },
               "position": {
-                "x": 708,
-                "y": 300
+                "x": 622,
+                "y": 286
               },
               "angle": 0,
               "id": "5f0267db-508f-4e8c-b337-b357470b9d0b",
               "z": 11,
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "See Request Queue",
+                  "type": "Denial of service",
+                  "description": "Issues for this queue are same as the Request Queue",
+                  "mitigation": "Resolve Request Queue threats, then mark this as mitigated.",
+                  "$$hashKey": "object:197"
+                }
+              ],
               "attrs": {
                 ".element-shape": {
-                  "class": "element-shape hasNoOpenThreats isInScope"
+                  "class": "element-shape hasOpenThreats isInScope"
                 },
                 "text": {
-                  "text": "Service Queue"
+                  "text": "(6) Service Queue"
                 },
                 ".element-text": {
-                  "class": "element-text hasNoOpenThreats isInScope"
+                  "class": "element-text hasOpenThreats isInScope"
                 }
               }
             },
@@ -354,19 +350,14 @@
               "target": {
                 "id": "5f0267db-508f-4e8c-b337-b357470b9d0b"
               },
-              "vertices": [
-                {
-                  "x": 687,
-                  "y": 260
-                }
-              ],
+              "vertices": [],
               "id": "213f2fb7-37c4-4dff-ae3a-519dc0628c26",
               "labels": [
                 {
                   "position": 0.5,
                   "attrs": {
                     "text": {
-                      "text": "Put Request",
+                      "text": "Publish Request",
                       "font-weight": "400",
                       "font-size": "small"
                     }
@@ -385,67 +376,48 @@
               }
             },
             {
-              "type": "tm.Flow",
-              "smooth": true,
-              "source": {
-                "id": "5f0267db-508f-4e8c-b337-b357470b9d0b"
-              },
-              "target": {
-                "id": "f23bee0c-9228-4dcf-baeb-2c06ac520370"
-              },
-              "vertices": [
-                {
-                  "x": 768,
-                  "y": 244
-                }
-              ],
-              "id": "be89631d-8c38-4ab5-8ab6-e785a53a32d6",
-              "labels": [
-                {
-                  "position": 0.5,
-                  "attrs": {
-                    "text": {
-                      "text": "Read Request",
-                      "font-weight": "400",
-                      "font-size": "small"
-                    }
-                  }
-                }
-              ],
-              "z": 13,
-              "hasOpenThreats": false,
-              "attrs": {
-                ".marker-target": {
-                  "class": "marker-target hasNoOpenThreats isInScope"
-                },
-                ".connection": {
-                  "class": "connection hasNoOpenThreats isInScope"
-                }
-              }
-            },
-            {
               "type": "tm.Process",
               "size": {
                 "width": 100,
                 "height": 100
               },
               "position": {
-                "x": 560,
-                "y": 382
+                "x": 788,
+                "y": 566
               },
               "angle": 0,
               "id": "0a73588c-dc92-486e-ae50-34cc6cc39c72",
               "z": 14,
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "title": "Unauthorized Modifying of NiFi Flow",
+                  "description": "If a malicious entity has access to the integration environment, there is no permissions set in place that would prevent them from tampering with the NiFi flow. This would be especially problematic if we pushed changes to the production environment without knowing they existed. \n\nIdeally, the flow should not be modified in integration, or only slightly edited in the case of some attributes.",
+                  "mitigation": "Would be useful to have some protection in the form of authentication. Would also be helpful to have a tool to make us aware of changes to the flow in this environment.",
+                  "$$hashKey": "object:245"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Location URL Valid but File is Bad",
+                  "type": "Denial of service",
+                  "description": "Someone making requests could intentionally (or unintentionally) provide a link to a file which, although valid, provides a file which can't be processed. An example would be a file so large that we exceed memory capacity to process it.",
+                  "mitigation": "Built-In NiFi processors like SplitText allow us to break down files, but we should be conscious about our system's limits and set a filesize limit if needed.",
+                  "$$hashKey": "object:257"
+                }
+              ],
               "attrs": {
                 ".element-shape": {
-                  "class": "element-shape hasNoOpenThreats isInScope"
+                  "class": "element-shape hasOpenThreats isInScope"
                 },
                 "text": {
-                  "text": "Validation"
+                  "text": "(7) Validation"
                 },
                 ".element-text": {
-                  "class": "element-text hasNoOpenThreats isInScope"
+                  "class": "element-text hasOpenThreats isInScope"
                 }
               }
             },
@@ -453,27 +425,27 @@
               "type": "tm.Flow",
               "smooth": true,
               "source": {
-                "id": "f23bee0c-9228-4dcf-baeb-2c06ac520370"
+                "id": "5f0267db-508f-4e8c-b337-b357470b9d0b"
               },
               "target": {
                 "id": "0a73588c-dc92-486e-ae50-34cc6cc39c72"
               },
               "vertices": [
                 {
-                  "x": 580,
-                  "y": 271
+                  "x": 809,
+                  "y": 423
                 }
               ],
               "id": "d9f86256-f9c4-4e76-9bbd-0c3b4ce6bb3d",
               "labels": [
                 {
                   "position": {
-                    "distance": 0.314391993164731,
-                    "offset": 0.1888176817446947
+                    "distance": 0.5435713616206024,
+                    "offset": -1.6396089978516102
                   },
                   "attrs": {
                     "text": {
-                      "text": "Transform Job",
+                      "text": "Consume Request",
                       "font-weight": "400",
                       "font-size": "small"
                     }
@@ -498,8 +470,8 @@
                 "height": 100
               },
               "position": {
-                "x": 346,
-                "y": 388
+                "x": 543,
+                "y": 464
               },
               "angle": 0,
               "id": "b1085d59-526e-4efa-b14f-18473c0163e1",
@@ -510,7 +482,7 @@
                   "class": "element-shape hasNoOpenThreats isInScope"
                 },
                 "text": {
-                  "text": "Security\nMarkings"
+                  "text": "(8) Security\nMarkings"
                 },
                 ".element-text": {
                   "class": "element-text hasNoOpenThreats isInScope"
@@ -601,8 +573,8 @@
               },
               "vertices": [
                 {
-                  "x": 399,
-                  "y": 310
+                  "x": 414,
+                  "y": 373
                 }
               ],
               "id": "5ac3f5d5-b4da-4420-8e1e-f29ee6a515ae",
@@ -636,22 +608,33 @@
                 "height": 80
               },
               "position": {
-                "x": 15,
+                "x": 14,
                 "y": 591
               },
               "angle": 0,
               "id": "8d458282-4d31-4003-8580-8e1b2a6fe8f3",
               "z": 20,
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "title": "Unauthorized Upload to S3 Buckets",
+                  "description": "Someone possessing S3 credentials without permission could upload and download files out of sync with the regular workflow.",
+                  "$$hashKey": "object:218",
+                  "mitigation": "Enforce specific profiles with permissions to upload or download."
+                }
+              ],
               "attrs": {
                 ".element-shape": {
-                  "class": "element-shape hasNoOpenThreats isInScope"
+                  "class": "element-shape hasOpenThreats isInScope"
                 },
                 "text": {
-                  "text": "Cloud Blob Store"
+                  "text": "(10) Cloud Blob Store"
                 },
                 ".element-text": {
-                  "class": "element-text hasNoOpenThreats isInScope"
+                  "class": "element-text hasOpenThreats isInScope"
                 }
               }
             },
@@ -683,8 +666,8 @@
                 "height": 100
               },
               "position": {
-                "x": 387,
-                "y": 582
+                "x": 384,
+                "y": 622
               },
               "angle": 0,
               "id": "699e1bac-f1ca-47a8-aa34-cf374b8f2a1d",
@@ -695,88 +678,10 @@
                   "class": "element-shape hasNoOpenThreats isInScope"
                 },
                 "text": {
-                  "text": "Transform\nWorker"
+                  "text": "(9) Transform\nWorker"
                 },
                 ".element-text": {
                   "class": "element-text hasNoOpenThreats isInScope"
-                }
-              }
-            },
-            {
-              "type": "tm.Flow",
-              "smooth": true,
-              "source": {
-                "id": "0a73588c-dc92-486e-ae50-34cc6cc39c72"
-              },
-              "target": {
-                "id": "0d8bccfa-7aa3-47d0-88d4-f31a486ed3b1"
-              },
-              "vertices": [
-                {
-                  "x": 753,
-                  "y": 439
-                }
-              ],
-              "id": "8da5772f-4da1-4670-afaa-a91bf60bfad7",
-              "labels": [
-                {
-                  "position": 0.5,
-                  "attrs": {
-                    "text": {
-                      "text": "Status Update",
-                      "font-weight": "400",
-                      "font-size": "small"
-                    }
-                  }
-                }
-              ],
-              "z": 23,
-              "hasOpenThreats": false,
-              "attrs": {
-                ".marker-target": {
-                  "class": "marker-target hasNoOpenThreats isInScope"
-                },
-                ".connection": {
-                  "class": "connection hasNoOpenThreats isInScope"
-                }
-              }
-            },
-            {
-              "type": "tm.Flow",
-              "smooth": true,
-              "source": {
-                "id": "b1085d59-526e-4efa-b14f-18473c0163e1"
-              },
-              "target": {
-                "id": "0d8bccfa-7aa3-47d0-88d4-f31a486ed3b1"
-              },
-              "vertices": [
-                {
-                  "x": 552,
-                  "y": 526
-                }
-              ],
-              "id": "41f515e6-b5fd-42bb-b158-89c912389b40",
-              "labels": [
-                {
-                  "position": 0.5,
-                  "attrs": {
-                    "text": {
-                      "text": "Status Update",
-                      "font-weight": "400",
-                      "font-size": "small"
-                    }
-                  }
-                }
-              ],
-              "z": 24,
-              "hasOpenThreats": false,
-              "attrs": {
-                ".marker-target": {
-                  "class": "marker-target hasNoOpenThreats isInScope"
-                },
-                ".connection": {
-                  "class": "connection hasNoOpenThreats isInScope"
                 }
               }
             },
@@ -858,45 +763,6 @@
                 "id": "699e1bac-f1ca-47a8-aa34-cf374b8f2a1d"
               },
               "target": {
-                "id": "0d8bccfa-7aa3-47d0-88d4-f31a486ed3b1"
-              },
-              "vertices": [
-                {
-                  "x": 797,
-                  "y": 494
-                }
-              ],
-              "id": "5219eb8e-ee13-495e-870d-a1260616cac7",
-              "labels": [
-                {
-                  "position": 0.5,
-                  "attrs": {
-                    "text": {
-                      "text": "Status Update",
-                      "font-weight": "400",
-                      "font-size": "small"
-                    }
-                  }
-                }
-              ],
-              "z": 27,
-              "hasOpenThreats": false,
-              "attrs": {
-                ".marker-target": {
-                  "class": "marker-target hasNoOpenThreats isInScope"
-                },
-                ".connection": {
-                  "class": "connection hasNoOpenThreats isInScope"
-                }
-              }
-            },
-            {
-              "type": "tm.Flow",
-              "smooth": true,
-              "source": {
-                "id": "699e1bac-f1ca-47a8-aa34-cf374b8f2a1d"
-              },
-              "target": {
                 "id": "835dc1c6-04ed-4695-a12c-679f1d1b49dc"
               },
               "vertices": [
@@ -930,34 +796,84 @@
               }
             },
             {
+              "type": "tm.Store",
+              "size": {
+                "width": 160,
+                "height": 80
+              },
+              "position": {
+                "x": 335,
+                "y": 1
+              },
+              "angle": 0,
+              "id": "4b62febf-9bc2-4154-b052-97415311f1d6",
+              "z": 30,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "title": "Multiple Consumers",
+                  "description": "If queue info is known, a malicious user could open up a consumer on it, making two consumers on that queue. Multiple consumers will stop the queue from working as expected.",
+                  "mitigation": "Something in place that will check/prevent multiple consumers.",
+                  "$$hashKey": "object:174"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "DOS from multiple producers",
+                  "type": "Denial of service",
+                  "description": "Multiple producers to a queue could publish blank objects to it, to the point that the consumer is unable to process them.",
+                  "mitigation": "Implement a load balancer.",
+                  "$$hashKey": "object:180"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "title": "Gaining Unauthenticated Access to Queue Data",
+                  "description": "Entities might gain access to the queue if no credential systems are in place, allowing them to consume data they should not have access to.",
+                  "mitigation": "Implement the need for credentials in queues.",
+                  "$$hashKey": "object:212"
+                }
+              ],
+              "attrs": {
+                ".element-shape": {
+                  "class": "element-shape hasOpenThreats isInScope"
+                },
+                "text": {
+                  "text": "(3) Request Queue"
+                },
+                ".element-text": {
+                  "class": "element-text hasOpenThreats isInScope"
+                }
+              }
+            },
+            {
               "type": "tm.Flow",
               "smooth": true,
               "source": {
-                "id": "835dc1c6-04ed-4695-a12c-679f1d1b49dc"
+                "id": "4b62febf-9bc2-4154-b052-97415311f1d6"
               },
               "target": {
-                "id": "0d8bccfa-7aa3-47d0-88d4-f31a486ed3b1"
+                "id": "f23bee0c-9228-4dcf-baeb-2c06ac520370"
               },
-              "vertices": [
-                {
-                  "x": 762,
-                  "y": 79
-                }
-              ],
-              "id": "8c6c8642-e0dc-48a8-be4e-e1e4cf738f43",
+              "vertices": [],
+              "id": "4f8368be-6cd6-4049-b16d-004c150f0290",
               "labels": [
                 {
                   "position": 0.5,
                   "attrs": {
                     "text": {
-                      "text": "Status Update",
+                      "text": "Read Request",
                       "font-weight": "400",
                       "font-size": "small"
                     }
                   }
                 }
               ],
-              "z": 29,
+              "z": 31,
               "hasOpenThreats": false,
               "attrs": {
                 ".marker-target": {
@@ -967,6 +883,100 @@
                   "class": "connection hasNoOpenThreats isInScope"
                 }
               }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "f23bee0c-9228-4dcf-baeb-2c06ac520370"
+              },
+              "target": {
+                "id": "0d8bccfa-7aa3-47d0-88d4-f31a486ed3b1"
+              },
+              "vertices": [
+                {
+                  "x": 840,
+                  "y": 133
+                }
+              ],
+              "id": "5abb5f4e-1f34-4056-8b41-f8d9222575ba",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "MIME Type Query",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 32,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "0d8bccfa-7aa3-47d0-88d4-f31a486ed3b1"
+              },
+              "target": {
+                "id": "f23bee0c-9228-4dcf-baeb-2c06ac520370"
+              },
+              "vertices": [],
+              "id": "83d64213-9756-429d-9f48-4a18da11bf18",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Query Results",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 33,
+              "hasOpenThreats": false,
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasNoOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasNoOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Boundary",
+              "smooth": true,
+              "source": {
+                "x": 323,
+                "y": 715
+              },
+              "target": {
+                "x": 920,
+                "y": 561
+              },
+              "vertices": [
+                {
+                  "x": 542,
+                  "y": 443
+                }
+              ],
+              "id": "f07307ad-665e-43b5-b80f-69253194361c",
+              "z": 34,
+              "attrs": {}
             }
           ]
         },
