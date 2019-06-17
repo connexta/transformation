@@ -396,7 +396,7 @@
                   "type": "Tampering",
                   "title": "Unauthorized Modifying of NiFi Flow",
                   "description": "If a malicious entity has access to the integration environment, there is no permissions set in place that would prevent them from tampering with the NiFi flow. This would be especially problematic if we pushed changes to the production environment without knowing they existed. \n\nIdeally, the flow should not be modified in integration, or only slightly edited in the case of some attributes.",
-                  "mitigation": "Would be useful to have some protection in the form of authentication. Would also be helpful to have a tool to make us aware of changes to the flow in this environment.",
+                  "mitigation": "Would be useful to have some protection in the form of authentication. Would also be helpful to have a tool to make us aware of changes to the flow in this environment.\nThis might be a good source of info when dealing with this problem:\nhttps://pierrevillard.com/2017/01/24/integration-of-nifi-with-ldap/",
                   "$$hashKey": "object:245"
                 },
                 {
@@ -407,6 +407,15 @@
                   "description": "Someone making requests could intentionally (or unintentionally) provide a link to a file which, although valid, provides a file which can't be processed. An example would be a file so large that we exceed memory capacity to process it.",
                   "mitigation": "Built-In NiFi processors like SplitText allow us to break down files, but we should be conscious about our system's limits and set a filesize limit if needed.",
                   "$$hashKey": "object:257"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "title": "Unauthorized Replacement of NiFi Instance Inside NiFi Container",
+                  "description": "A variation of the threat Unauthorized Modifying of NiFi. Someone gaining access can easily replace the nifi Instance with their own altered version. Similar to the other ticket, these changes could be made with a good probability of not being detected.",
+                  "mitigation": "Restrict access to who can enter the container, and further restrict permission to delete the directory/create a new directory.",
+                  "$$hashKey": "object:55"
                 }
               ],
               "attrs": {
