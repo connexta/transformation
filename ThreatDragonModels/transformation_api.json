@@ -427,45 +427,6 @@
               }
             },
             {
-              "type": "tm.Flow",
-              "smooth": true,
-              "source": {
-                "id": "0a73588c-dc92-486e-ae50-34cc6cc39c72"
-              },
-              "target": {
-                "id": "835dc1c6-04ed-4695-a12c-679f1d1b49dc"
-              },
-              "vertices": [
-                {
-                  "x": 460,
-                  "y": 369
-                }
-              ],
-              "id": "f588c332-c432-4784-818f-9e16f21fb545",
-              "labels": [
-                {
-                  "position": 0.5,
-                  "attrs": {
-                    "text": {
-                      "text": "Success",
-                      "font-weight": "400",
-                      "font-size": "small"
-                    }
-                  }
-                }
-              ],
-              "z": 18,
-              "hasOpenThreats": false,
-              "attrs": {
-                ".marker-target": {
-                  "class": "marker-target hasNoOpenThreats isInScope"
-                },
-                ".connection": {
-                  "class": "connection hasNoOpenThreats isInScope"
-                }
-              }
-            },
-            {
               "type": "tm.Store",
               "size": {
                 "width": 160,
