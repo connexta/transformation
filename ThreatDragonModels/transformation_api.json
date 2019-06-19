@@ -58,9 +58,25 @@
                   "severity": "Medium",
                   "title": "DOS From Requests",
                   "type": "Denial of service",
-                  "mitigation": "Implement a load balancer.",
+                  "mitigation": "Implement a load balancer. (Platform team)",
                   "description": "Numerous empty requests from users could overburden the API and prevent it from processing valid requests.",
                   "$$hashKey": "object:224"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Unknown Malicious Entity Logs into Container",
+                  "type": "Repudiation",
+                  "mitigation": "Log time and id of whoever enters the container.",
+                  "$$hashKey": "object:361"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Unkown Malicious Entity Elevates Priviledges to Root",
+                  "mitigation": "Mitigated in latest version of Docker",
+                  "type": "Elevation of privilege",
+                  "$$hashKey": "object:367"
                 }
               ],
               "attrs": {
@@ -88,16 +104,27 @@
               "angle": 0,
               "id": "f23bee0c-9228-4dcf-baeb-2c06ac520370",
               "z": 3,
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "title": "Prevent Malicious Queries to Database",
+                  "mitigation": "Verify that queries to database are sanitized and use stored procedures.",
+                  "$$hashKey": "object:172",
+                  "description": "We want to protect against SQL injection and other malicious queries."
+                }
+              ],
               "attrs": {
                 ".element-shape": {
-                  "class": "element-shape hasNoOpenThreats isInScope"
+                  "class": "element-shape hasOpenThreats isInScope"
                 },
                 "text": {
                   "text": "(4) Service\nRegistry"
                 },
                 ".element-text": {
-                  "class": "element-text hasNoOpenThreats isInScope"
+                  "class": "element-text hasOpenThreats isInScope"
                 }
               }
             },
@@ -150,8 +177,8 @@
               },
               "vertices": [
                 {
-                  "x": 154,
-                  "y": 243
+                  "x": 182,
+                  "y": 250
                 }
               ],
               "id": "b04e0b3e-e7b6-452d-86a7-103951cd2396",
@@ -171,13 +198,40 @@
                 }
               ],
               "z": 5,
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "title": "User Claims to Have Access When They Don't",
+                  "mitigation": "Require authentication.",
+                  "$$hashKey": "object:267"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Information disclosure",
+                  "title": "Requests Need to be Encrypted",
+                  "description": "Encryption must be set in place to prevent unauthorized viewing of requests from third parties.",
+                  "mitigation": "Mitigated with https tls",
+                  "$$hashKey": "object:252"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Unknown User Sends Malicious Request",
+                  "type": "Repudiation",
+                  "mitigation": "Logging IP address of user",
+                  "$$hashKey": "object:349"
+                }
+              ],
               "attrs": {
                 ".marker-target": {
-                  "class": "marker-target hasNoOpenThreats isInScope"
+                  "class": "marker-target hasOpenThreats isInScope"
                 },
                 ".connection": {
-                  "class": "connection hasNoOpenThreats isInScope"
+                  "class": "connection hasOpenThreats isInScope"
                 }
               }
             },
@@ -189,13 +243,13 @@
                 "y": 68
               },
               "target": {
-                "x": 328,
-                "y": 294
+                "x": 113,
+                "y": 439
               },
               "vertices": [
                 {
-                  "x": 300,
-                  "y": 185
+                  "x": 269,
+                  "y": 271
                 }
               ],
               "id": "108a4aad-2961-4659-a9aa-fdbe54c65800",
@@ -355,7 +409,7 @@
                   "title": "Unauthorized Modifying of NiFi Flow",
                   "description": "If a malicious entity has access to the integration environment, there is no permissions set in place that would prevent them from tampering with the NiFi flow. This would be especially problematic if we pushed changes to the production environment without knowing they existed. \n\nIdeally, the flow should not be modified in integration, or only slightly edited in the case of some attributes.",
                   "mitigation": "Would be useful to have some protection in the form of authentication. Would also be helpful to have a tool to make us aware of changes to the flow in this environment.\nThis might be a good source of info when dealing with this problem:\nhttps://pierrevillard.com/2017/01/24/integration-of-nifi-with-ldap/",
-                  "$$hashKey": "object:245"
+                  "$$hashKey": "object:188"
                 },
                 {
                   "status": "Open",
@@ -364,7 +418,7 @@
                   "type": "Denial of service",
                   "description": "Someone making requests could intentionally (or unintentionally) provide a link to a file which, although valid, provides a file which can't be processed. An example would be a file so large that we exceed memory capacity to process it.",
                   "mitigation": "Built-In NiFi processors like SplitText allow us to break down files, but we should be conscious about our system's limits and set a filesize limit if needed.",
-                  "$$hashKey": "object:257"
+                  "$$hashKey": "object:200"
                 },
                 {
                   "status": "Open",
@@ -373,7 +427,7 @@
                   "title": "Unauthorized Replacement of NiFi Instance Inside NiFi Container",
                   "description": "A variation of the threat Unauthorized Modifying of NiFi. Someone gaining access can easily replace the nifi Instance with their own altered version. Similar to the other ticket, these changes could be made with a good probability of not being detected.",
                   "mitigation": "Restrict access to who can enter the container, and further restrict permission to delete the directory/create a new directory.",
-                  "$$hashKey": "object:55"
+                  "$$hashKey": "object:194"
                 }
               ],
               "attrs": {
@@ -447,8 +501,8 @@
                   "type": "Tampering",
                   "title": "Unauthorized Upload to S3 Buckets",
                   "description": "Someone possessing S3 credentials without permission could upload and download files out of sync with the regular workflow.",
-                  "$$hashKey": "object:218",
-                  "mitigation": "Enforce specific profiles with permissions to upload or download."
+                  "mitigation": "Enforce specific profiles with permissions to upload or download.",
+                  "$$hashKey": "object:207"
                 }
               ],
               "attrs": {
@@ -523,7 +577,7 @@
                   "type": "Spoofing",
                   "title": "Gaining Unauthenticated Access to Queue Data",
                   "description": "Entities might gain access to the queue if no credential systems are in place, allowing them to consume data they should not have access to.",
-                  "mitigation": "Implement the need for credentials in queues.",
+                  "mitigation": "- Implement the need for credentials in queues.\n- Implement PKI in queues (Platform team).",
                   "$$hashKey": "object:212"
                 }
               ],
@@ -602,13 +656,32 @@
                 }
               ],
               "z": 32,
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Query Might be Read by Unauthorized Third Party",
+                  "type": "Information disclosure",
+                  "mitigation": "Mitigate with HTTPS TLS",
+                  "$$hashKey": "object:335"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Spoofing",
+                  "title": "Query Might be Sent to an Unauthorized Third Party",
+                  "description": "A malicious third party might be using the endpoints that were assigned to the database.",
+                  "mitigation": "Mitigated with HTTPS TLS",
+                  "$$hashKey": "object:402"
+                }
+              ],
               "attrs": {
                 ".marker-target": {
-                  "class": "marker-target hasNoOpenThreats isInScope"
+                  "class": "marker-target hasOpenThreats isInScope"
                 },
                 ".connection": {
-                  "class": "connection hasNoOpenThreats isInScope"
+                  "class": "connection hasOpenThreats isInScope"
                 }
               }
             },
@@ -636,36 +709,34 @@
                 }
               ],
               "z": 33,
-              "hasOpenThreats": false,
-              "attrs": {
-                ".marker-target": {
-                  "class": "marker-target hasNoOpenThreats isInScope"
-                },
-                ".connection": {
-                  "class": "connection hasNoOpenThreats isInScope"
-                }
-              }
-            },
-            {
-              "type": "tm.Boundary",
-              "smooth": true,
-              "source": {
-                "x": 414,
-                "y": 709
-              },
-              "target": {
-                "x": 812,
-                "y": 638
-              },
-              "vertices": [
+              "hasOpenThreats": true,
+              "threats": [
                 {
-                  "x": 562,
-                  "y": 528
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Results May be Read by Unauthorized Third Party",
+                  "mitigation": "Mitigate with HTTPS TLS",
+                  "type": "Information disclosure",
+                  "$$hashKey": "object:341"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "title": "Results may be Tampered With Prior to Being Sent Back",
+                  "description": "A malicious third party could alter data being sent back.",
+                  "mitigation": "Check data for validity and ensure that it matches the format of expected results.",
+                  "$$hashKey": "object:382"
                 }
               ],
-              "id": "f07307ad-665e-43b5-b80f-69253194361c",
-              "z": 34,
-              "attrs": {}
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasOpenThreats isInScope"
+                }
+              }
             },
             {
               "type": "tm.Flow",
@@ -691,13 +762,23 @@
                 }
               ],
               "z": 35,
-              "hasOpenThreats": false,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Publishing to Blob Store Viewed by Unautorized Third Party",
+                  "type": "Information disclosure",
+                  "mitigation": "Mitigate with HTTPS TLS",
+                  "$$hashKey": "object:421"
+                }
+              ],
               "attrs": {
                 ".marker-target": {
-                  "class": "marker-target hasNoOpenThreats isInScope"
+                  "class": "marker-target hasOpenThreats isInScope"
                 },
                 ".connection": {
-                  "class": "connection hasNoOpenThreats isInScope"
+                  "class": "connection hasOpenThreats isInScope"
                 }
               }
             },
@@ -730,7 +811,57 @@
                 }
               ],
               "z": 36,
+              "hasOpenThreats": true,
+              "threats": [
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Callback Read by Unauthorized Third Party",
+                  "type": "Information disclosure",
+                  "mitigation": "Mitigate with HTTPS TLS",
+                  "$$hashKey": "object:315"
+                }
+              ],
+              "attrs": {
+                ".marker-target": {
+                  "class": "marker-target hasOpenThreats isInScope"
+                },
+                ".connection": {
+                  "class": "connection hasOpenThreats isInScope"
+                }
+              }
+            },
+            {
+              "type": "tm.Flow",
+              "smooth": true,
+              "source": {
+                "id": "835dc1c6-04ed-4695-a12c-679f1d1b49dc"
+              },
+              "target": {
+                "id": "4e179efa-922e-42ac-8276-27c1f6d8ccde"
+              },
+              "vertices": [
+                {
+                  "x": 238,
+                  "y": 146
+                }
+              ],
+              "id": "8728835d-dd99-4c99-8e79-febdc5b9215b",
+              "labels": [
+                {
+                  "position": 0.5,
+                  "attrs": {
+                    "text": {
+                      "text": "Request Response",
+                      "font-weight": "400",
+                      "font-size": "small"
+                    }
+                  }
+                }
+              ],
+              "z": 37,
               "hasOpenThreats": false,
+              "threats": [],
               "attrs": {
                 ".marker-target": {
                   "class": "marker-target hasNoOpenThreats isInScope"
