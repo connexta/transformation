@@ -68,7 +68,7 @@
                   "title": "Unknown Malicious Entity Logs into Container",
                   "type": "Repudiation",
                   "mitigation": "Log time and id of whoever enters the container.",
-                  "$$hashKey": "object:361"
+                  "$$hashKey": "object:68"
                 },
                 {
                   "status": "Open",
@@ -76,7 +76,23 @@
                   "title": "Unkown Malicious Entity Elevates Priviledges to Root",
                   "mitigation": "Mitigated in latest version of Docker",
                   "type": "Elevation of privilege",
-                  "$$hashKey": "object:367"
+                  "$$hashKey": "object:483"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "title": "Container May Crash",
+                  "mitigation": "Implement proper Docker orchestration logic",
+                  "$$hashKey": "object:471"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "title": "Unknown Malicious Entity May Spam Requests",
+                  "type": "Denial of service",
+                  "mitigation": "Mitigate with reverse-proxy/load balancer",
+                  "$$hashKey": "object:74"
                 }
               ],
               "attrs": {
@@ -141,28 +157,18 @@
               "angle": 0,
               "id": "0d8bccfa-7aa3-47d0-88d4-f31a486ed3b1",
               "z": 4,
-              "hasOpenThreats": true,
+              "hasOpenThreats": false,
               "isALog": true,
-              "threats": [
-                {
-                  "status": "Open",
-                  "severity": "Medium",
-                  "type": "Tampering",
-                  "title": "Unauthorized Changes to Database",
-                  "description": "Database should only take commands from recognized profiles, namely the Service Registry Service.",
-                  "mitigation": "Implement proper permission checks.",
-                  "$$hashKey": "object:235"
-                }
-              ],
+              "threats": [],
               "attrs": {
                 ".element-shape": {
-                  "class": "element-shape hasOpenThreats isInScope"
+                  "class": "element-shape hasNoOpenThreats isInScope"
                 },
                 "text": {
                   "text": "(5) Database"
                 },
                 ".element-text": {
-                  "class": "element-text hasOpenThreats isInScope"
+                  "class": "element-text hasNoOpenThreats isInScope"
                 }
               }
             },
@@ -224,6 +230,24 @@
                   "type": "Repudiation",
                   "mitigation": "Logging IP address of user",
                   "$$hashKey": "object:349"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "title": "Request can be Tampered With",
+                  "description": "",
+                  "mitigation": "Mitigated with HTTPS tools",
+                  "$$hashKey": "object:430"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "title": "Malicious Entity Might Provide Bad Data",
+                  "mitigation": "Mitigate with reverse-proxy/load balancing",
+                  "$$hashKey": "object:457",
+                  "description": "Data provided might have a bad time being processed by the API."
                 }
               ],
               "attrs": {
@@ -323,7 +347,7 @@
                 "height": 80
               },
               "position": {
-                "x": 618,
+                "x": 620,
                 "y": 334
               },
               "angle": 0,
@@ -493,27 +517,17 @@
               "angle": 0,
               "id": "8d458282-4d31-4003-8580-8e1b2a6fe8f3",
               "z": 20,
-              "hasOpenThreats": true,
-              "threats": [
-                {
-                  "status": "Open",
-                  "severity": "Medium",
-                  "type": "Tampering",
-                  "title": "Unauthorized Upload to S3 Buckets",
-                  "description": "Someone possessing S3 credentials without permission could upload and download files out of sync with the regular workflow.",
-                  "mitigation": "Enforce specific profiles with permissions to upload or download.",
-                  "$$hashKey": "object:207"
-                }
-              ],
+              "hasOpenThreats": false,
+              "threats": [],
               "attrs": {
                 ".element-shape": {
-                  "class": "element-shape hasOpenThreats isInScope"
+                  "class": "element-shape hasNoOpenThreats isInScope"
                 },
                 "text": {
                   "text": "(8) Cloud Blob Store"
                 },
                 ".element-text": {
-                  "class": "element-text hasOpenThreats isInScope"
+                  "class": "element-text hasNoOpenThreats isInScope"
                 }
               }
             },
@@ -553,15 +567,6 @@
               "z": 30,
               "hasOpenThreats": true,
               "threats": [
-                {
-                  "status": "Open",
-                  "severity": "Medium",
-                  "type": "Denial of service",
-                  "title": "Multiple Consumers",
-                  "description": "If queue info is known, a malicious user could open up a consumer on it, making two consumers on that queue. Multiple consumers will stop the queue from working as expected.",
-                  "mitigation": "Something in place that will check/prevent multiple consumers.",
-                  "$$hashKey": "object:174"
-                },
                 {
                   "status": "Open",
                   "severity": "Medium",
@@ -665,15 +670,6 @@
                   "type": "Information disclosure",
                   "mitigation": "Mitigate with HTTPS TLS",
                   "$$hashKey": "object:335"
-                },
-                {
-                  "status": "Open",
-                  "severity": "Medium",
-                  "type": "Spoofing",
-                  "title": "Query Might be Sent to an Unauthorized Third Party",
-                  "description": "A malicious third party might be using the endpoints that were assigned to the database.",
-                  "mitigation": "Mitigated with HTTPS TLS",
-                  "$$hashKey": "object:402"
                 }
               ],
               "attrs": {
@@ -727,6 +723,15 @@
                   "description": "A malicious third party could alter data being sent back.",
                   "mitigation": "Check data for validity and ensure that it matches the format of expected results.",
                   "$$hashKey": "object:382"
+                },
+                {
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Denial of service",
+                  "title": "Response is too large",
+                  "description": "Database or malicious party returns a reponse too big for our system to process.",
+                  "mitigation": "Ensure that the size of the response is not larger than what the system is capable of processing.",
+                  "$$hashKey": "object:447"
                 }
               ],
               "attrs": {
