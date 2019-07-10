@@ -49,7 +49,7 @@
                 <configuration>
                     <images>
                         <image>
-                            <name>cnxta/transformation:${project.version}</name>
+                            <name>r.ion.phx.connexta.com/cnxta/ion-transformation:${project.version}</name>
                             <build>
                                 <dockerFile>Dockerfile</dockerFile>
                                 <assembly>
