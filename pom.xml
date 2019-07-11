@@ -56,7 +56,7 @@
         <guava.version>20.0</guava.version>
         <immutables.version>2.7.1</immutables.version>
         <micrometer.version>1.0.6</micrometer.version>
-        <transformation-api.version>0.0.1-SNAPSHOT</transformation-api.version>
+        <transformation-api.version>0.0.1</transformation-api.version>
         <spring-amqp.version>2.1.5.RELEASE</spring-amqp.version>
         <slf4j.version>1.7.25</slf4j.version>
         <junit.jupiter.version>5.5.0-M1</junit.jupiter.version>
@@ -97,16 +97,18 @@
 
     <repositories>
         <repository>
-            <id>ossrh</id>
-            <name>OSSRH Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
             <layout>default</layout>
             <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
                 <enabled>false</enabled>
-            </releases>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>ion</id>
+            <name>Ion Repository</name>
+            <url>http://nexus.phx.connexta.com:8081/nexus/content/groups/ion/</url>
         </repository>
     </repositories>
 
