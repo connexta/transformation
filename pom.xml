@@ -31,7 +31,7 @@
 
     <groupId>com.connexta.transformation</groupId>
     <artifactId>transformation-service</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <scm>
@@ -44,23 +44,16 @@
 
     <properties>
 
-        <!-- Build properties -->
+
         <java.version>11</java.version>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- Dependency properties -->
-        <guava.version>20.0</guava.version>
-        <immutables.version>2.7.1</immutables.version>
-        <micrometer.version>1.0.6</micrometer.version>
-        <transformation-api.version>0.0.1</transformation-api.version>
-        <spring-amqp.version>2.1.5.RELEASE</spring-amqp.version>
+        <transformation.api.version>0.1.0</transformation.api.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <junit.jupiter.version>5.5.0-M1</junit.jupiter.version>
-        <junit.platform.version>1.5.0-M1</junit.platform.version>
+        <junit.jupiter.version>5.3.1</junit.jupiter.version>
 
-        <!-- Plugin dependency properties -->
         <compiler-plugin.version>3.8.0</compiler-plugin.version>
         <dependency-plugin.version>3.0.2</dependency-plugin.version>
         <directory.maven.plugin.version>0.3.1</directory.maven.plugin.version>
@@ -72,9 +65,9 @@
         <dependency.check.maven.plugin.version>5.0.0-M3</dependency.check.maven.plugin.version>
         <sonar.maven.plugin.version>3.6.0.1398</sonar.maven.plugin.version>
         <spotless.maven.plugin.version>1.23.0</spotless.maven.plugin.version>
+        <surefire.plugin.version>3.0.0-M3</surefire.plugin.version>
         <release-plugin.version>2.5.3</release-plugin.version>
 
-        <!-- Gitflow Incremental Builder Properties -->
         <gib.referenceBranch>refs/remotes/origin/master</gib.referenceBranch>
         <gib.baseBranch>HEAD</gib.baseBranch>
         <gib.enabled>false</gib.enabled>
@@ -91,7 +84,6 @@
             <url>http://nexus.phx.connexta.com:8081/nexus/content/repositories/ion-releases/</url>
         </repository>
     </distributionManagement>
-
 
     <repositories>
         <repository>
@@ -114,59 +106,23 @@
         <dependencies>
             <dependency>
                 <groupId>com.connexta.transformation</groupId>
-                <artifactId>transformation-api-java</artifactId>
-                <version>${transformation-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.connexta.transformation</groupId>
                 <artifactId>transformation-api-rest-spring</artifactId>
-                <version>${transformation-api.version}</version>
+                <version>${transformation.api.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.connexta.transformation</groupId>
                 <artifactId>transformation-api-rest-spring-boot</artifactId>
-                <version>${transformation-api.version}</version>
+                <version>${transformation.api.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.connexta.transformation</groupId>
                 <artifactId>transformation-api-rest-models</artifactId>
-                <version>${transformation-api.version}</version>
+                <version>${transformation.api.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.connexta.transformation</groupId>
                 <artifactId>transformation-api-rest-stub</artifactId>
-                <version>${transformation-api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.micrometer</groupId>
-                <artifactId>micrometer-core</artifactId>
-                <version>${micrometer.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.micrometer</groupId>
-                <artifactId>micrometer-registry-jmx</artifactId>
-                <version>${micrometer.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.immutables</groupId>
-                <artifactId>value</artifactId>
-                <version>${immutables.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.amqp</groupId>
-                <artifactId>spring-rabbit</artifactId>
-                <version>${spring-amqp.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.amqp</groupId>
-                <artifactId>spring-amqp</artifactId>
-                <version>${spring-amqp.version}</version>
+                <version>${transformation.api.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -177,12 +133,6 @@
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter-engine</artifactId>
                 <version>${junit.jupiter.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.platform</groupId>
-                <artifactId>junit-platform-runner</artifactId>
-                <version>${junit.platform.version}</version>
-                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -364,6 +314,11 @@
                     <artifactId>sonar-maven-plugin</artifactId>
                     <version>${sonar.maven.plugin.version}</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${surefire.plugin.version}</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -460,7 +415,6 @@
     </profiles>
 
     <modules>
-        <module>impl</module>
         <module>distros</module>
     </modules>
 

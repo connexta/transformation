@@ -13,11 +13,10 @@
  */
 package com.connexta.transformation.service;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-public class TransformationServiceImplTest {
+public class TransformControllerTest {
 
-  // See LORE-142
   @Test
   public void testTransform() {
     System.out.println("testing transform");

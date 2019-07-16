@@ -1,12 +1,6 @@
-spring:
-  rabbitmq:
-    user: ion
-    password: ion
-    host: rabbitmq
-    port: 5672
-    virtualHost: /
-    exchange: transformation
-    routingKey: request
+endpoints:
+  lookupService:
+    url: http://ec2-160-1-120-126.us-gov-west-1.compute.amazonaws.com:9191/lookup
 logging:
   level:
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG

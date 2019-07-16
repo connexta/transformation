@@ -1,12 +1,6 @@
-spring:
-  rabbitmq:
-    user: ion
-    password: ion
-    host: localhost
-    port: 5672
-    virtualHost: /
-    exchange: transformation
-    routingKey: request
+endpoints:
+  lookupService:
+    url: https://testabc.free.beeceptor.com/lookup
 logging:
   level:
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG

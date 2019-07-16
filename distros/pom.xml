@@ -20,7 +20,7 @@
     <parent>
         <groupId>com.connexta.transformation</groupId>
         <artifactId>transformation-service</artifactId>
-        <version>0.0.2-SNAPSHOT</version>
+        <version>0.1.0-SNAPSHOT</version>
     </parent>
 
     <name>Transformation :: Service :: Distros</name>
