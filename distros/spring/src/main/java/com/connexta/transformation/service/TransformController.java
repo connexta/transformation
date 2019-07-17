@@ -61,7 +61,6 @@ public class TransformController implements TransformApi {
    */
   @RequestMapping(
       value = "/transform",
-      produces = {MediaType.APPLICATION_JSON_VALUE},
       consumes = {MediaType.APPLICATION_JSON_VALUE},
       method = RequestMethod.POST)
   public ResponseEntity<Void> transform(
