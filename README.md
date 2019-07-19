@@ -27,6 +27,11 @@ cd <ion-transformation root>/distros/spring
 ```
 
 ```
+Set the following environment variables for the Lookup Service Endpoint:
+${PROTOCOL}://${LOOKUP_SERVICE_HOST}:${LOOKUP_SERVICE_PORT}/lookup
+```
+
+```
 java "-Dserver.port=8080" "-Dspring.profiles.active=dev" -jar .\target\transformation-distros-spring-<version>.jar
 ```
 
