@@ -13,7 +13,7 @@
 #
 endpoints:
   lookupService:
-    url: https://testabc.free.beeceptor.com/lookup
+    url: ${PROTOCOL}://${LOOKUP_SERVICE_HOST}:${LOOKUP_SERVICE_PORT}/lookup
 logging:
   level:
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG

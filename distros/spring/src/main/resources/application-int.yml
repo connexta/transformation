@@ -13,7 +13,7 @@
 #
 endpoints:
   lookupService:
-    url: http://ec2-160-1-120-126.us-gov-west-1.compute.amazonaws.com:9191/lookup
+    url: ${PROTOCOL}://${LOOKUP_SERVICE_HOST}:${LOOKUP_SERVICE_PORT}/lookup
 logging:
   level:
     org.springframework.web.filter.CommonsRequestLoggingFilter: DEBUG
