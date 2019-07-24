@@ -13,12 +13,51 @@
  */
 package com.connexta.transformation.service;
 
-import org.junit.jupiter.api.Test;
+import static org.hamcrest.core.Is.is;
 
+import com.connexta.transformation.rest.models.TransformRequest;
+import org.junit.Assert;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.client.ResourceAccessException;
+
+@RunWith(SpringRunner.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(properties = "endpoints.lookupService.url = http://localhost:")
+@ContextConfiguration
 public class TransformControllerTest {
+  private static final String ACCEPT_VERSION = "0.1.0";
+
+  @LocalServerPort private int port;
+
+  @Autowired private TestRestTemplate restTemplate;
+
+  @Autowired private String lookupServiceUrl;
 
   @Test
-  public void testTransform() {
-    System.out.println("testing transform");
+  public void testAcceptedResponseEntity() {
+    TransformController controller =
+        new TransformController(restTemplate.getRestTemplate(), lookupServiceUrl + port);
+    ResponseEntity responseEntity = controller.transform(ACCEPT_VERSION, new TransformRequest());
+
+    Assert.assertThat(responseEntity.getStatusCode(), is(HttpStatus.ACCEPTED));
+  }
+
+  @Test(expected = ResourceAccessException.class)
+  public void testInvalidServiceUrl() {
+    String badServiceUrl = "http://bad.url";
+    TransformController controller =
+        new TransformController(restTemplate.getRestTemplate(), badServiceUrl);
+
+    controller.transform(ACCEPT_VERSION, new TransformRequest());
   }
 }
