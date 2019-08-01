@@ -29,6 +29,7 @@
 
     <properties>
         <app.artifactId>transformation-distros-spring</app.artifactId>
+        <docker.push.registry>r.ion.phx.connexta.com</docker.push.registry>
     </properties>
 
     <dependencies>
@@ -45,9 +46,10 @@
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <configuration>
+                    <pushRegistry>${docker.push.registry}</pushRegistry>
                     <images>
                         <image>
-                            <name>r.ion.phx.connexta.com/cnxta/ion-transformation:${project.version}</name>
+                            <name>cnxta/ion-transformation:${project.version}</name>
                             <build>
                                 <dockerFile>Dockerfile</dockerFile>
                                 <assembly>
