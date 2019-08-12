@@ -43,7 +43,7 @@ Prerequisite: If using an insecure Docker registry, update ~/.docker/daemon.json
 Change to the root directory of the cloned ion-transformation repository. Run the following command:
 
 ```
-mvn clean install "-D-Ddocker.push.registry=myPushRegistry" docker:push
+mvn clean install "-Ddocker.push.registry=myPushRegistry" docker:push
 ```
 
 ## Formatting
