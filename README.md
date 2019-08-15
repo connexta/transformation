@@ -35,6 +35,17 @@ ${PROTOCOL}://${LOOKUP_SERVICE_HOST}:${LOOKUP_SERVICE_PORT}/lookup
 java "-Dserver.port=8080" "-Dspring.profiles.active=dev" -jar .\target\transformation-distros-spring-<version>.jar
 ```
 
+## Push a Docker image to a registry
+
+Prerequisite: If using an insecure Docker registry, update ~/.docker/daemon.json to include the appropriate
+              insecure-registries and restart Docker.
+
+Change to the root directory of the cloned ion-transformation repository. Run the following command:
+
+```
+mvn clean install "-Ddocker.push.registry=myPushRegistry" docker:push
+```
+
 ## Formatting
 If during development the build fails for formatting violations:
 
