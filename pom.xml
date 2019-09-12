@@ -50,7 +50,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <transformation.api.version>0.1.1</transformation.api.version>
+        <transformation.api.version>0.2.0</transformation.api.version>
         <slf4j.version>1.7.25</slf4j.version>
         <junit.jupiter.version>5.3.1</junit.jupiter.version>
 
@@ -95,9 +95,14 @@
             </snapshots>
         </repository>
         <repository>
-            <id>ion</id>
-            <name>Ion Repository</name>
-            <url>http://nexus.phx.connexta.com:8081/nexus/content/groups/ion/</url>
+            <id>ion-releases</id>
+            <name>Ion Releases</name>
+            <url>http://artifacts.codice.org/content/repositories/ion-releases/</url>
+        </repository>
+        <repository>
+            <id>ion-snapshots</id>
+            <name>Ion Snapshots</name>
+            <url>http://artifacts.codice.org/content/repositories/ion-snapshots/</url>
         </repository>
     </repositories>
 
