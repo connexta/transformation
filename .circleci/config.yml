@@ -1,0 +1,159 @@
+# This configuration pipeline is meant to outline structure and naming standards
+# Author: Jonathan Fontaine
+version: 2.1 #CircleCI API Version
+orbs:
+  snyk: snyk/snyk@0.0.8
+
+jobs: #Defines the overall Jobs for this particular pipeline to be used in workflows or as isolated jobs
+  Build: # Execute compilation and library linkage as first step
+    docker: &image # The '&image' setups up a reference tag to be used by '*image' (see unit tests)
+      - image: circleci/openjdk:11-jdk
+    steps:
+      - run: &env # does the same as '&image' above and see usage below in unit tests
+          name: Setting environment
+          command: |
+            echo "export DISABLE_DOWNLOAD_PROGRESS_OPTS=-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn" >> $BASH_ENV
+            source $BASH_ENV
+      - checkout
+      - run:
+          name: Maven install without tests
+          command: |
+            mvn install -B -DskipTests $DISABLE_DOWNLOAD_PROGRESS_OPTS
+  Unit Testing: # Execute unit tests separate from other executions to track performance
+    docker: *image
+    steps:
+      - run: *env
+      - checkout
+      - run:
+          name: Maven test phase
+          command: |
+            mvn package test -B $DISABLE_DOWNLOAD_PROGRESS_OPTS
+  Dependency Scan: # Security-Dependency Scanning
+    docker: *image
+    steps:
+      - checkout
+      - snyk/scan:
+          fail-on-issues: true # Fail if we discover any issues/vulnerabilities
+          monitor-on-build: false
+          severity-threshold: high # Set the failure threshold to high
+          token-variable: SNYK_TOKEN #This Token is an environment variable -- API Token from Snyk
+  Container Scan: # Security-Container Scanning
+    docker:
+      - image: circleci/ruby:2.4.1
+    steps:
+      - checkout
+      - run: echo "Scanning Container via Anchore"
+  Docker Image Build: # Build-Container Image -- Call out what flavor (likely always Docker) and indicate this is the Build of said container/image
+    docker:
+      - image: circleci/ruby:2.4.1
+    steps:
+      - checkout
+      - run: echo "Building Docker Image"
+  Sonar Code Quality Scan: # Quality-Code Scanning -- Call out what flavor (Sonar presently) and indicate Code Quality Scan
+    docker: *image
+    steps:
+    # PR Analysis cannot have branch.target parameter
+    # PR Analysis requires "pullrequest.provider" & "pullrequest.github.reposotiry" to fire decorators back to GitHub
+    # CircleCI limit:  no organization name for easier pointing to github.repository value
+      - run:
+          name: Determining Sonar and Branch Configuration
+          command: |
+              SONAR_PARAMS='';
+              if [[ ! -z $CIRCLE_PULL_REQUEST ]];
+              then
+                SONAR_PARAMS="${SONAR_PARAMS} \
+                -Dsonar.pullrequest.key=${CIRCLE_PULL_REQUEST##*/} \
+                -Dsonar.pullrequest.base=master \
+                -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
+                -Dsonar.pullrequest.provider=GitHub
+                -Dsonar.pullrequest.github.repository=connexta/${CIRCLE_PROJECT_REPONAME}"
+              fi
+              if [[ ${CIRCLE_BRANCH} != 'master' && -z $CIRCLE_PULL_REQUEST ]];
+              then
+                SONAR_PARAMS="${SONAR_PARAMS} \
+                -Dsonar.branch.target=master \
+                -Dsonar.branch.name=${CIRCLE_BRANCH}"
+              fi
+              echo "export SONAR_PARAMS='${SONAR_PARAMS}'" >> $BASH_ENV
+              source $BASH_ENV
+      - checkout
+        # sonar.pullrequest.base should be your default branch but may not be "master"
+        # sonar.login is the API token we can use and here is configured for a CircleCI Env Variable
+        # sonar.organization "cx" is the Connexta Organization
+        # CircleCI Env. Variable CIRCLE_PULL_REQUEST only works for "forked" repos
+      - run:
+          name: Scanning
+          command: |
+            echo $SONAR_PARAMS;
+            mvn verify sonar:sonar \
+            -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME} \
+            -Dsonar.organization=cx \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.login=${PIPELINE_SONAR_TOKEN} \
+            $SONAR_PARAMS;
+  Contract Testing: # Testing-Contract
+    docker:
+      - image: circleci/ruby:2.4.1
+    steps:
+      - checkout
+      - run: echo "Running Contract Tests"
+  Integration Testing: # Testing-Integration
+    docker:
+      - image: circleci/ruby:2.4.1
+    steps:
+      - checkout
+      - run: echo "Running Integration Tests"
+  Deploy Artifacts: # Deploy artifacts to Nexus or Maven Central
+    docker:
+      - image: circleci/ruby:2.4.1
+    steps:
+      - checkout
+      - run: echo "Deploying artifacts"
+
+# There should be a minimum of 2 workflows:
+# 1) a PR workflow for vetting through the CICD pipeline PR changes
+# 2) a master workflow for vetting the overall changes out to the public via CICD pipeline
+workflows:
+  version: 2.1 #Version indicates which CircleCI language version is in use
+  Ion Pipeline: # Defines a workflow "PR Workflow" to show up in UI
+    jobs: # List what specific defined jobs from above are to be run
+      - Build #Job 1a
+      - Sonar Code Quality Scan #Job1b -- This intentionally is a dead end as it shouldn't break the build
+      - Unit Testing: #Job 2a
+          requires:
+            - Build
+          filters:
+            branches:
+              ignore: master
+      - Dependency Scan: #Job 2b
+          requires:
+            - Build
+      - Docker Image Build: #Job 3
+          requires:
+            - Build
+            - Unit Testing
+            - Dependency Scan
+      - Container Scan: # Job 4a
+          requires:
+            - Docker Image Build
+      - Contract Testing: # Job 4b
+          requires:
+            - Docker Image Build
+          filters:
+            branches:
+              only: master
+      - Integration Testing: #Job 4c
+          requires:
+            - Docker Image Build
+          filters:
+            branches:
+              only: master
+      - Deploy Artifacts: # Job 5
+          requires:
+            - Container Scan
+            - Contract Testing
+            - Integration Testing
+          filters:
+            branches:
+              only: master
+
