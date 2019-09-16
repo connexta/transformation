@@ -96,12 +96,10 @@
         </repository>
         <repository>
             <id>releases</id>
-            <name>Ion Releases</name>
             <url>http://artifacts.codice.org/content/repositories/ion-releases/</url>
         </repository>
         <repository>
             <id>snapshots</id>
-            <name>Ion Snapshots</name>
             <url>http://artifacts.codice.org/content/repositories/ion-snapshots/</url>
         </repository>
     </repositories>
