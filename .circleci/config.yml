@@ -9,6 +9,8 @@ jobs: #Defines the overall Jobs for this particular pipeline to be used in workf
     docker: &image # The '&image' setups up a reference tag to be used by '*image' (see unit tests)
       - image: circleci/openjdk:11-jdk
     steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run: &env # does the same as '&image' above and see usage below in unit tests
           name: Setting environment
           command: |
