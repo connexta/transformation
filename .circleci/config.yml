@@ -1,10 +1,22 @@
-# This configuration pipeline is meant to outline structure and naming standards
-# Author: Jonathan Fontaine
-version: 2.1 #CircleCI API Version
+# This configuration yml file should be renamed to "config.yml" to use
+# -> Build Engine: Maven
+# -> Security Tools: Snyk
+# -> Code Quality: SonarCloud
+# -> Build Artifacts: binaries + container
+#
+#
+# CICD Configuration Version: 0.2
+#
+# Expected external configurations (Environment variables)
+# - PIPELINE_SONAR_TOKEN: The authentication token required by SonarCloud to upload reports
+# - SNYK_TOKEN: The authentication token required by Snyk to upload reports and execute certain scans
+version: 2.1 # CircleCI API Version
+
+# This use of this orb requires 3rd party orbs to be enable for the organization
 orbs:
   snyk: snyk/snyk@0.0.8
 
-jobs: #Defines the overall Jobs for this particular pipeline to be used in workflows or as isolated jobs
+jobs: # Defines the overall Jobs for this particular pipeline to be used in workflows or as isolated jobs
   Build: # Execute compilation and library linkage as first step
     docker: &image # The '&image' setups up a reference tag to be used by '*image' (see unit tests)
       - image: circleci/openjdk:11-jdk
@@ -13,6 +25,7 @@ jobs: #Defines the overall Jobs for this particular pipeline to be used in workf
           docker_layer_caching: true
       - run: &env # does the same as '&image' above and see usage below in unit tests
           name: Setting environment
+          # DISABLE_DOWNLOAD_PROGRESS_OPTS - this variable simplifies the overall logging output from maven by restricting to warn level
           command: |
             echo "export DISABLE_DOWNLOAD_PROGRESS_OPTS=-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn" >> $BASH_ENV
             source $BASH_ENV
@@ -38,51 +51,39 @@ jobs: #Defines the overall Jobs for this particular pipeline to be used in workf
           fail-on-issues: true # Fail if we discover any issues/vulnerabilities
           monitor-on-build: false
           severity-threshold: high # Set the failure threshold to high
-          token-variable: SNYK_TOKEN #This Token is an environment variable -- API Token from Snyk
-  Container Scan: # Security-Container Scanning
-    docker:
-      - image: circleci/ruby:2.4.1
-    steps:
-      - checkout
-      - run: echo "Scanning Container via Anchore"
-  Docker Image Build: # Build-Container Image -- Call out what flavor (likely always Docker) and indicate this is the Build of said container/image
-    docker:
-      - image: circleci/ruby:2.4.1
-    steps:
-      - checkout
-      - run: echo "Building Docker Image"
+          token-variable: SNYK_TOKEN # This Token is an environment variable -- API Token from Snyk
   Sonar Code Quality Scan: # Quality-Code Scanning -- Call out what flavor (Sonar presently) and indicate Code Quality Scan
     docker: *image
     steps:
-    # PR Analysis cannot have branch.target parameter
-    # PR Analysis requires "pullrequest.provider" & "pullrequest.github.reposotiry" to fire decorators back to GitHub
-    # CircleCI limit:  no organization name for easier pointing to github.repository value
+      # PR Analysis cannot have branch.target parameter
+      # PR Analysis requires "pullrequest.provider" & "pullrequest.github.reposotiry" to fire decorators back to GitHub
+      # CircleCI limit:  no organization name for easier pointing to github.repository value
       - run:
           name: Determining Sonar and Branch Configuration
           command: |
-              SONAR_PARAMS='';
-              if [[ ! -z $CIRCLE_PULL_REQUEST ]];
-              then
-                SONAR_PARAMS="${SONAR_PARAMS} \
-                -Dsonar.pullrequest.key=${CIRCLE_PULL_REQUEST##*/} \
-                -Dsonar.pullrequest.base=master \
-                -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
-                -Dsonar.pullrequest.provider=GitHub
-                -Dsonar.pullrequest.github.repository=connexta/${CIRCLE_PROJECT_REPONAME}"
-              fi
-              if [[ ${CIRCLE_BRANCH} != 'master' && -z $CIRCLE_PULL_REQUEST ]];
-              then
-                SONAR_PARAMS="${SONAR_PARAMS} \
-                -Dsonar.branch.target=master \
-                -Dsonar.branch.name=${CIRCLE_BRANCH}"
-              fi
-              echo "export SONAR_PARAMS='${SONAR_PARAMS}'" >> $BASH_ENV
-              source $BASH_ENV
+            SONAR_PARAMS='';
+            if [[ ! -z $CIRCLE_PULL_REQUEST ]];
+            then
+              SONAR_PARAMS="${SONAR_PARAMS} \
+              -Dsonar.pullrequest.key=${CIRCLE_PULL_REQUEST##*/} \
+              -Dsonar.pullrequest.base=master \
+              -Dsonar.pullrequest.branch=${CIRCLE_BRANCH} \
+              -Dsonar.pullrequest.provider=GitHub
+              -Dsonar.pullrequest.github.repository=connexta/${CIRCLE_PROJECT_REPONAME}"
+            fi
+            if [[ ${CIRCLE_BRANCH} != 'master' && -z $CIRCLE_PULL_REQUEST ]];
+            then
+              SONAR_PARAMS="${SONAR_PARAMS} \
+              -Dsonar.branch.target=master \
+              -Dsonar.branch.name=${CIRCLE_BRANCH}"
+            fi
+            echo "export SONAR_PARAMS='${SONAR_PARAMS}'" >> $BASH_ENV
+            source $BASH_ENV
       - checkout
         # sonar.pullrequest.base should be your default branch but may not be "master"
         # sonar.login is the API token we can use and here is configured for a CircleCI Env Variable
         # sonar.organization "cx" is the Connexta Organization
-        # CircleCI Env. Variable CIRCLE_PULL_REQUEST only works for "forked" repos
+      # CircleCI Env. Variable CIRCLE_PULL_REQUEST only works for "forked" repos
       - run:
           name: Scanning
           command: |
@@ -91,71 +92,98 @@ jobs: #Defines the overall Jobs for this particular pipeline to be used in workf
             -Dsonar.projectKey=${CIRCLE_PROJECT_REPONAME} \
             -Dsonar.organization=cx \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.login=${PIPELINE_SONAR_TOKEN} \
+            -Dsonar.login=$SONAR_TOKEN \
             $SONAR_PARAMS;
+
+# START: UNDER CONSTRUCTION AREA ---------------------------------------
+# TODO #1 - Get the docker image to build and flush out stage and commenting
+  Docker Image Build: # Build-Container Image
+    docker:
+      - image: circleci/ruby:2.4.1
+    steps:
+      - run: echo "*PLACEHOLDER* pretending to build a docker image!"
+  Container Scan:
+    docker:
+      - image: circleci/ruby:2.4.1
+    steps:
+      - run: echo "*PLACEHOLDER* pretending to scan a docker image!"
   Contract Testing: # Testing-Contract
     docker:
       - image: circleci/ruby:2.4.1
     steps:
-      - checkout
-      - run: echo "Running Contract Tests"
+      - run: echo "*PLACEHOLDER* pretending to execute contract testing phase!"
   Integration Testing: # Testing-Integration
     docker:
       - image: circleci/ruby:2.4.1
     steps:
-      - checkout
-      - run: echo "Running Integration Tests"
+      - run: echo "*PLACEHOLDER* pretending to execute integration testing phase!"
+  Deploy Docker Image:
+    docker:
+      - image: circleci/ruby:2.4.1
+    steps:
+      - run:
+          name: Deploy to registry
+          command: |
+            mvn install -B docker:push
   Deploy Artifacts: # Deploy artifacts to Nexus or Maven Central
     docker:
       - image: circleci/ruby:2.4.1
     steps:
-      - checkout
-      - run: echo "Deploying artifacts"
+      - run: echo "*PLACEHOLDER* pretending to deploy build artifacts to Maven Central!"
+# END: UNDER CONSTRUCTION AREA ---------------------------------------
 
-# There should be a minimum of 2 workflows:
-# 1) a PR workflow for vetting through the CICD pipeline PR changes
-# 2) a master workflow for vetting the overall changes out to the public via CICD pipeline
+# There should be a minimum of 2 control flows:
+# 1) a feature branch/PR centric flow for vetting through the CICD pipeline incremental changes
+# 2) a master/release centric flow for vetting the overall changes headed out for public release
+# Although there isn't two workflows explicitly defined, the use of filters simplifies this with the
+# same effect.
 workflows:
-  version: 2.1 #Version indicates which CircleCI language version is in use
+  version: 2.1 # Version indicates which CircleCI language version is in use
   Ion Pipeline: # Defines a workflow "PR Workflow" to show up in UI
     jobs: # List what specific defined jobs from above are to be run
-      - Build #Job 1a
-      - Sonar Code Quality Scan #Job1b -- This intentionally is a dead end as it shouldn't break the build
-      - Unit Testing: #Job 2a
+      - Build # Job 1a
+      - Sonar Code Quality Scan: # Job1b -- Intentionally is a dead end as it shouldn't break the build
+          context: secrets
+      - Unit Testing: # Job 2a
           requires:
             - Build
           filters:
             branches:
               ignore: master
-      - Dependency Scan: #Job 2b
+      - Dependency Scan: # Job 2b
           requires:
             - Build
-      - Docker Image Build: #Job 3
+      - Docker Image Build: # Job 3
           requires:
             - Build
             - Unit Testing
             - Dependency Scan
-      - Container Scan: # Job 4a
+      - Container Scan: # Job 4a - Expected that Dependency Scan is faster than Testing Phase
           requires:
             - Docker Image Build
-      - Contract Testing: # Job 4b
-          requires:
-            - Docker Image Build
-          filters:
-            branches:
-              only: master
-      - Integration Testing: #Job 4c
-          requires:
-            - Docker Image Build
-          filters:
-            branches:
-              only: master
-      - Deploy Artifacts: # Job 5
+      - Contract Testing: # Job 5a
           requires:
             - Container Scan
+          filters:
+            branches:
+              only: master
+      - Integration Testing: #Job 5b
+          requires:
+            - Container Scan
+          filters:
+            branches:
+              only: master
+      - Deploy Artifacts: # Job 6a
+          requires:
             - Contract Testing
             - Integration Testing
           filters:
             branches:
               only: master
-
+      - Deploy Docker Image: # Job 6b
+          requires:
+            - Contract Testing
+            - Integration Testing
+          filters:
+            branches:
+              only: master
