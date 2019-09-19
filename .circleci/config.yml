@@ -119,7 +119,7 @@ jobs: # Defines the overall Jobs for this particular pipeline to be used in work
       - run: echo "*PLACEHOLDER* pretending to execute integration testing phase!"
   Deploy Docker Image:
     docker:
-      - image: circleci/ruby:2.4.1
+      - image: *image
     steps:
       - run:
           name: Deploy to registry
