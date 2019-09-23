@@ -98,10 +98,16 @@ jobs: # Defines the overall Jobs for this particular pipeline to be used in work
 # START: UNDER CONSTRUCTION AREA ---------------------------------------
 # TODO #1 - Get the docker image to build and flush out stage and commenting
   Docker Image Build: # Build-Container Image
-    docker:
-      - image: circleci/ruby:2.4.1
+    docker: *image
     steps:
-      - run: echo "*PLACEHOLDER* pretending to build a docker image!"
+      - setup_remote_docker:
+          docker_layer_caching: true
+      - run: *env
+      - checkout
+      - run:
+          name: Build Docker image
+          command: |
+            mvn install -B -DskipTests $DISABLE_DOWNLOAD_PROGRESS_OPTS docker:build
   Container Scan:
     docker:
       - image: circleci/ruby:2.4.1
@@ -121,9 +127,9 @@ jobs: # Defines the overall Jobs for this particular pipeline to be used in work
     docker: *image
     steps:
       - run:
-          name: Deploy to registry
+          name: Deploy to internal registry
           command: |
-            mvn install -B docker:push
+            mvn docker:push
   Deploy Artifacts: # Deploy artifacts to Nexus or Maven Central
     docker:
       - image: circleci/ruby:2.4.1
