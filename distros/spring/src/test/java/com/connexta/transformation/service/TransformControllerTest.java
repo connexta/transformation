@@ -21,8 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.connexta.transformation.commons.api.Transformation;
 import com.connexta.transformation.commons.api.TransformationManager;
-import com.connexta.transformation.commons.api.status.Transformation;
 import com.connexta.transformation.rest.models.TransformRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;

@@ -15,7 +15,7 @@ package com.connexta.transformation.service;
 
 import com.connexta.transformation.commons.api.TransformationManager;
 import com.connexta.transformation.commons.inmemory.InMemoryTransformationManager;
-import org.springframework.beans.factory.annotation.Value;
+import io.micrometer.core.instrument.MeterRegistry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -32,9 +32,6 @@ public class Application {
 
   private static final String INBOUND_REQUEST_PREFIX = "Inbound Request: ";
 
-  @Value("${endpoints.lookupService.url}")
-  private String lookupServiceUrl;
-
   @Bean
   public CommonsRequestLoggingFilter requestLoggingFilter() {
     final CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
@@ -47,14 +44,9 @@ public class Application {
     return loggingFilter;
   }
 
-  @Bean(name = "lookupServiceUrl")
-  public String getLookupServiceUrl() {
-    return lookupServiceUrl;
-  }
-
   @Bean
-  public TransformationManager transformationManager() {
-    return new InMemoryTransformationManager();
+  public TransformationManager transformationManager(MeterRegistry meterRegistry) {
+    return new InMemoryTransformationManager(meterRegistry.config().clock());
   }
 
   public static void main(String[] args) {

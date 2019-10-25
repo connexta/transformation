@@ -13,11 +13,12 @@
  */
 package com.connexta.transformation.service;
 
+import com.connexta.transformation.commons.api.Transformation;
 import com.connexta.transformation.commons.api.TransformationManager;
 import com.connexta.transformation.commons.api.exceptions.TransformationException;
-import com.connexta.transformation.commons.api.status.Transformation;
 import com.connexta.transformation.rest.models.TransformRequest;
 import com.connexta.transformation.rest.spring.TransformApiTransform;
+import java.net.MalformedURLException;
 import java.net.URI;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -70,21 +71,21 @@ public class TransformController implements TransformApiTransform {
   public ResponseEntity<Void> transform(
       @RequestHeader(ACCEPT_VERSION) String acceptVersion,
       @Valid @RequestBody TransformRequest transformRequest)
-      throws TransformationException {
+      throws TransformationException, MalformedURLException {
 
     LOGGER.debug("{}: {}", ACCEPT_VERSION, acceptVersion);
     return postURI(transformRequest);
   }
 
   private ResponseEntity<Void> postURI(TransformRequest transformRequest)
-      throws TransformationException {
+      throws TransformationException, MalformedURLException {
 
     ResponseEntity<Void> response;
     Transformation trans =
         transformationManager.createTransform(
-            transformRequest.getCurrentLocation(),
-            transformRequest.getFinalLocation(),
-            transformRequest.getMetacardLocation());
+            transformRequest.getCurrentLocation().toURL(),
+            transformRequest.getFinalLocation().toURL(),
+            transformRequest.getMetacardLocation().toURL());
 
     URI uri =
         ServletUriComponentsBuilder.fromCurrentRequest()

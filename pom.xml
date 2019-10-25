@@ -62,14 +62,20 @@
         <gitflow-plugin.version>3.4</gitflow-plugin.version>
         <javadoc-plugin.version>3.1.0</javadoc-plugin.version>
         <source-plugin.version>3.0.1</source-plugin.version>
+        <codice-maven.version>0.2</codice-maven.version>
         <jacoco.maven.plugin.version>0.8.4</jacoco.maven.plugin.version>
         <dependency.check.maven.plugin.version>5.2.1</dependency.check.maven.plugin.version>
         <sonar.maven.plugin.version>3.6.0.1398</sonar.maven.plugin.version>
-        <spotless.maven.plugin.version>1.23.0</spotless.maven.plugin.version>
+        <spotless.maven.plugin.version>1.25.1</spotless.maven.plugin.version>
         <release-plugin.version>2.5.3</release-plugin.version>
-        <org.springframework.boot.version>2.1.7.RELEASE</org.springframework.boot.version>
-        <com.fasterxml.jackson.core.version>2.10.0.pr3</com.fasterxml.jackson.core.version>
-        <com.google.guava.version>28.0-jre</com.google.guava.version>
+        <jsr305.version>3.0.2_1</jsr305.version>
+        <commons-io.version>2.6</commons-io.version>
+        <spring.version>5.1.6.RELEASE</spring.version>
+        <spring.boot.version>2.1.7.RELEASE</spring.boot.version>
+        <javax.servlet.version>4.0.1</javax.servlet.version>
+        <jackson.version>2.10.0.pr3</jackson.version>
+        <guava.version>28.0-jre</guava.version>
+        <micrometer.version>1.2.1</micrometer.version>
 
         <gib.referenceBranch>refs/remotes/origin/master</gib.referenceBranch>
         <gib.baseBranch>HEAD</gib.baseBranch>
@@ -117,17 +123,12 @@
             </dependency>
             <dependency>
                 <groupId>com.connexta.transformation</groupId>
-                <artifactId>transformation-api-rest-spring-boot</artifactId>
-                <version>${transformation.api.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.connexta.transformation</groupId>
                 <artifactId>transformation-api-rest-models</artifactId>
                 <version>${transformation.api.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.connexta.transformation</groupId>
-                <artifactId>transformation-api-rest-stub</artifactId>
+                <artifactId>transformation-api-rest-spring-stubs</artifactId>
                 <version>${transformation.api.version}</version>
             </dependency>
             <dependency>
@@ -138,6 +139,11 @@
             <dependency>
                 <groupId>com.connexta.transformation</groupId>
                 <artifactId>commons-impl</artifactId>
+                <version>${commons.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.connexta.transformation</groupId>
+                <artifactId>commons-inmemory</artifactId>
                 <version>${commons.version}</version>
             </dependency>
             <dependency>
@@ -153,23 +159,61 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
-                <version>${org.springframework.boot.version}</version>
+                <version>${spring.boot.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
-                <version>${com.fasterxml.jackson.core.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-core</artifactId>
-                <version>${com.fasterxml.jackson.core.version}</version>
+                <version>${jackson.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>${com.google.guava.version}</version>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-core</artifactId>
+                <version>${micrometer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.micrometer</groupId>
+                <artifactId>micrometer-registry-prometheus</artifactId>
+                <version>${micrometer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring.boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework</groupId>
+                        <artifactId>spring-core</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <!-- Spring boot will try to bring in a logback version that causes errors -->
+                <exclusions>
+                    <exclusion>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                    </exclusion>
+                </exclusions>
+                <version>${spring-boot.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -286,24 +330,18 @@
                     <groupId>org.jacoco</groupId>
                     <artifactId>jacoco-maven-plugin</artifactId>
                     <version>${jacoco.maven.plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.codice.maven</groupId>
+                            <artifactId>jacoco</artifactId>
+                            <version>${codice-maven.version}</version>
+                        </dependency>
+                    </dependencies>
                     <executions>
                         <execution>
                             <id>default-prepare-agent</id>
                             <goals>
                                 <goal>prepare-agent</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>default-report</id>
-                            <phase>prepare-package</phase>
-                            <goals>
-                                <goal>report</goal>
-                            </goals>
-                        </execution>
-                        <execution>
-                            <id>default-check</id>
-                            <goals>
-                                <goal>check</goal>
                             </goals>
                         </execution>
                     </executions>
@@ -377,6 +415,10 @@
                 <groupId>org.sonarsource.scanner.maven</groupId>
                 <artifactId>sonar-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+            </plugin>
         </plugins>
     </build>
 
@@ -423,6 +465,7 @@
 
     <modules>
         <module>distros</module>
+        <module>interceptors</module>
     </modules>
 
 </project>
