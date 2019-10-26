@@ -50,7 +50,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <transformation.api.version>0.2.0</transformation.api.version>
+        <transformation.api.version>0.3.0-SNAPSHOT</transformation.api.version>
         <slf4j.version>1.7.25</slf4j.version>
         <junit.jupiter.version>5.3.1</junit.jupiter.version>
 
@@ -297,6 +297,19 @@
                         <configuration>
                             <property>highest-basedir</property>
                         </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.coveo</groupId>
+                <artifactId>fmt-maven-plugin</artifactId>
+                <version>2.9</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>check</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
