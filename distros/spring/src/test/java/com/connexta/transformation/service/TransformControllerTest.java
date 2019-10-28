@@ -13,16 +13,10 @@
  */
 package com.connexta.transformation.service;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.connexta.transformation.commons.api.TransformationManager;
-import com.connexta.transformation.commons.api.exceptions.TransformationNotFoundException;
 import com.connexta.transformation.rest.models.TransformRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
@@ -82,21 +76,5 @@ public class TransformControllerTest {
         new TransformController(new RestTemplateBuilder(), badServiceUrl, tManager);
 
     controller.transform(ACCEPT_VERSION, new TransformRequest());
-  }
-
-  @Test
-  public void testDelete() throws Exception {
-    this.mockMvc.perform(delete("/transform/id123")).andExpect(status().isNoContent());
-    verify(tManager).delete(anyString());
-  }
-
-  @Test
-  public void testNotFoundDelete() throws Exception {
-    doThrow(new TransformationNotFoundException("Transformation [gibberish-ID] cannot be found"))
-        .when(tManager)
-        .delete(anyString());
-    assertThatThrownBy(() -> this.mockMvc.perform(delete("/transform/gibberish-ID")))
-        .hasCause(
-            new TransformationNotFoundException("Transformation [gibberish-ID] cannot be found"));
   }
 }
