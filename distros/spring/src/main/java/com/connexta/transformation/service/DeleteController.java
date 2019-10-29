@@ -36,7 +36,7 @@ public class DeleteController implements TransformApiDelete {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(DeleteController.class);
 
-  public TransformationManager transformationManager;
+  private final TransformationManager transformationManager;
 
   @Autowired
   public DeleteController(TransformationManager transformManager) {

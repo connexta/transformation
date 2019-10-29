@@ -24,11 +24,9 @@ import com.connexta.transformation.commons.api.TransformationManager;
 import com.connexta.transformation.commons.api.exceptions.TransformationNotFoundException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Answers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -39,9 +37,6 @@ public class DeleteControllerTest {
   @Autowired private MockMvc mockMvc;
 
   @MockBean TransformationManager tManager;
-
-  @MockBean(answer = Answers.RETURNS_MOCKS)
-  private RestTemplateBuilder restTemplateBuilder;
 
   @Test
   public void testDelete() throws Exception {

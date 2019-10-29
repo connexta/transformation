@@ -52,31 +52,30 @@
             <artifactId>transformation-api-rest-models</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.connexta.transformation</groupId>
+            <artifactId>commons-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.connexta.transformation</groupId>
+            <artifactId>commons-impl</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>2.1.7.RELEASE</version>
             <scope>test</scope>
         </dependency>
         <!--The following dependencies replace transitive dependencies with CVEs-->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.10.0.pr3</version>
         </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
-            <version>2.10.0.pr3</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>28.0-jre</version>
-        </dependency>
-        <dependency>
-        <groupId>com.connexta.transformation</groupId>
-        <artifactId>commons-api</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -114,7 +113,7 @@
                                         <limit>
                                             <counter>INSTRUCTION</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.90</minimum>
+                                            <minimum>0.91</minimum>
                                         </limit>
                                         <limit>
                                             <counter>BRANCH</counter>
@@ -124,7 +123,7 @@
                                         <limit>
                                             <counter>COMPLEXITY</counter>
                                             <value>COVEREDRATIO</value>
-                                            <minimum>0.85</minimum>
+                                            <minimum>0.83</minimum>
                                         </limit>
                                     </limits>
                                 </rule>

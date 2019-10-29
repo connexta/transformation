@@ -13,6 +13,8 @@
  */
 package com.connexta.transformation.service;
 
+import com.connexta.transformation.commons.api.TransformationManager;
+import com.connexta.transformation.commons.inmemory.InMemoryTransformationManager;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -48,6 +50,11 @@ public class Application {
   @Bean(name = "lookupServiceUrl")
   public String getLookupServiceUrl() {
     return lookupServiceUrl;
+  }
+
+  @Bean
+  public TransformationManager transformationManager() {
+    return new InMemoryTransformationManager();
   }
 
   public static void main(String[] args) {
