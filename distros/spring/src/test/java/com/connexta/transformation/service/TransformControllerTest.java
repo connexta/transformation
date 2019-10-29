@@ -13,50 +13,67 @@
  */
 package com.connexta.transformation.service;
 
-import static org.hamcrest.core.Is.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.connexta.transformation.commons.api.TransformationManager;
 import com.connexta.transformation.rest.models.TransformRequest;
-import org.junit.Assert;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Answers;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.client.ResourceAccessException;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = "endpoints.lookupService.url = http://localhost:")
-@ContextConfiguration
+@WebMvcTest(TransformController.class)
 public class TransformControllerTest {
-  private static final String ACCEPT_VERSION = "0.1.0";
 
-  @LocalServerPort private int port;
+  private static final String TEST_URI = "http://test:9000";
 
-  @Autowired private TestRestTemplate restTemplate;
+  private static final String ACCEPT_VERSION = "Accept-Version";
 
-  @Autowired private String lookupServiceUrl;
+  private static final String ACCEPT_VERSION_NUM = "0.1.0";
+
+  private ObjectMapper mapper = new ObjectMapper();
+
+  @Autowired private MockMvc mockMvc;
+
+  @MockBean TransformationManager tManager;
+
+  @MockBean(answer = Answers.RETURNS_MOCKS)
+  private RestTemplateBuilder restTemplateBuilder;
 
   @Test
-  public void testAcceptedResponseEntity() {
-    TransformController controller =
-        new TransformController(restTemplate.getRestTemplate(), lookupServiceUrl + port);
-    ResponseEntity responseEntity = controller.transform(ACCEPT_VERSION, new TransformRequest());
-
-    Assert.assertThat(responseEntity.getStatusCode(), is(HttpStatus.ACCEPTED));
+  public void testAcceptedResponseEntity() throws Exception {
+    this.mockMvc
+        .perform(
+            post("/transform")
+                .header(ACCEPT_VERSION, ACCEPT_VERSION_NUM)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(
+                    mapper.writeValueAsString(
+                        new TransformRequest()
+                            .currentLocation(new URI(TEST_URI))
+                            .finalLocation(new URI(TEST_URI))
+                            .metacardLocation(new URI(TEST_URI))))
+                .characterEncoding(StandardCharsets.UTF_8.name()))
+        .andExpect(status().isAccepted());
   }
 
   @Test(expected = ResourceAccessException.class)
   public void testInvalidServiceUrl() {
     String badServiceUrl = "http://bad.url";
     TransformController controller =
-        new TransformController(restTemplate.getRestTemplate(), badServiceUrl);
+        new TransformController(new RestTemplateBuilder(), badServiceUrl, tManager);
 
     controller.transform(ACCEPT_VERSION, new TransformRequest());
   }

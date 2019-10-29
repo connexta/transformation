@@ -13,20 +13,22 @@
  */
 package com.connexta.transformation.service;
 
+import com.connexta.transformation.commons.api.TransformationManager;
 import com.connexta.transformation.rest.models.TransformRequest;
 import com.connexta.transformation.rest.springboot.TransformApi;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
+import io.swagger.annotations.ApiParam;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.http.MediaType;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -46,7 +48,19 @@ public class TransformController implements TransformApi {
 
   private final String lookupServiceUrl;
 
+  public TransformationManager transformationManager;
+
+  @Autowired
   public TransformController(
+      RestTemplateBuilder builder,
+      @Qualifier("lookupServiceUrl") String lookupServiceUrl,
+      TransformationManager transformManager) {
+    this(builder.build(), lookupServiceUrl);
+    this.transformationManager = transformManager;
+  }
+
+  @VisibleForTesting
+  TransformController(
       RestTemplate restTemplate, @Qualifier("lookupServiceUrl") String lookupServiceUrl) {
     Preconditions.checkNotNull(restTemplate, "Rest Template cannot be null.");
     Preconditions.checkNotNull(lookupServiceUrl, "Lookup Service Url cannot be null.");
@@ -54,18 +68,21 @@ public class TransformController implements TransformApi {
     this.lookupServiceUrl = lookupServiceUrl;
   }
 
-  /**
-   * Handles application/json POST transform requests to the /transform context. This method
-   * handles: - Validating the message - Forwarding the request to the service lookup service.
-   * Returns an HTTP Status Code of 202 Accepted on success; otherwise, an error status code.
-   */
-  @RequestMapping(
-      value = "/transform",
-      consumes = {MediaType.APPLICATION_JSON_VALUE},
-      method = RequestMethod.POST)
+  @Override
   public ResponseEntity<Void> transform(
-      @RequestHeader(ACCEPT_VERSION) String acceptVersion,
-      @Valid @RequestBody TransformRequest transformRequest) {
+      @ApiParam(
+              value =
+                  "The API version used by the client to produce the REST message. The client must accept responses marked with any minor versions after this one. This implies that all future minor versions of the message are backward compatible with all previous minor versions of the same message. ",
+              required = true)
+          @RequestHeader(value = "Accept-Version", required = true)
+          String acceptVersion,
+      @ApiParam(
+              value =
+                  "A request to transform a file into discovery metadata and other supporting products.",
+              required = true)
+          @Valid
+          @RequestBody
+          TransformRequest transformRequest) {
     LOGGER.debug("{}: {}", ACCEPT_VERSION, acceptVersion);
     forwardRequest(transformRequest);
     return ResponseEntity.accepted().build();
