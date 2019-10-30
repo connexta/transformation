@@ -94,26 +94,6 @@
         </repository>
     </distributionManagement>
 
-    <repositories>
-        <repository>
-            <id>central</id>
-            <name>Central Repository</name>
-            <url>https://repo.maven.apache.org/maven2</url>
-            <layout>default</layout>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>releases</id>
-            <url>http://artifacts.codice.org/content/repositories/ion-releases/</url>
-        </repository>
-        <repository>
-            <id>snapshots</id>
-            <url>http://artifacts.codice.org/content/repositories/ion-snapshots/</url>
-        </repository>
-    </repositories>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -482,6 +462,48 @@
             </reporting>
         </profile>
     </profiles>
+
+    <repositories>
+        <repository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+        <repository>
+            <id>codice</id>
+            <name>Codice Repository</name>
+            <url>https://artifacts.codice.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>releases</id>
+            <url>http://artifacts.codice.org/content/repositories/ion-releases/</url>
+        </repository>
+        <repository>
+            <id>snapshots</id>
+            <url>http://artifacts.codice.org/content/repositories/ion-snapshots/</url>
+        </repository>
+    </repositories>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>central</id>
+            <name>Central Repository</name>
+            <url>https://repo.maven.apache.org/maven2</url>
+            <layout>default</layout>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+        <pluginRepository>
+            <id>codice</id>
+            <name>Codice Repository</name>
+            <url>https://artifacts.codice.org/content/groups/public/</url>
+        </pluginRepository>
+    </pluginRepositories>
 
     <modules>
         <module>interceptors</module>
