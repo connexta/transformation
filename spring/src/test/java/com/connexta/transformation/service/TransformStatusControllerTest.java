@@ -45,7 +45,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(TransformStatusController.class)
+@WebMvcTest(controllers = TransformStatusController.class)
 public class TransformStatusControllerTest {
 
   private static final String ID = "id123";

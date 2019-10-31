@@ -20,6 +20,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 /**
  * Main class for the Transformation implementation application. This class also is the
@@ -47,6 +48,11 @@ public class Application {
   @Bean
   public TransformationManager transformationManager(MeterRegistry meterRegistry) {
     return new InMemoryTransformationManager(meterRegistry.config().clock());
+  }
+
+  @Bean
+  public ForwardedHeaderFilter forwardedHeaderFilter() {
+    return new ForwardedHeaderFilter();
   }
 
   public static void main(String[] args) {
