@@ -70,7 +70,7 @@
         <release-plugin.version>2.5.3</release-plugin.version>
         <jsr305.version>3.0.2_1</jsr305.version>
         <commons-io.version>2.6</commons-io.version>
-        <spring.version>5.1.6.RELEASE</spring.version>
+        <spring.version>5.2.0.RELEASE</spring.version>
         <spring.boot.version>2.1.7.RELEASE</spring.boot.version>
         <javax.servlet.version>4.0.1</javax.servlet.version>
         <jackson.version>2.10.0.pr3</jackson.version>
