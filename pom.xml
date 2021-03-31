@@ -74,7 +74,7 @@
         <spring.boot.version>2.1.7.RELEASE</spring.boot.version>
         <javax.servlet.version>4.0.1</javax.servlet.version>
         <jackson.version>2.10.0.pr3</jackson.version>
-        <guava.version>28.0-jre</guava.version>
+        <guava.version>29.0-jre</guava.version>
         <micrometer.version>1.2.1</micrometer.version>
 
         <gib.referenceBranch>refs/remotes/origin/master</gib.referenceBranch>
